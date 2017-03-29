@@ -17,20 +17,36 @@
 =end
 
 module Giskard
-	class Message
-		attr_accessor :id                # unique id of the message 
-		attr_accessor :seq               # id of the message in the conversation
-		attr_accessor :text              # content of the message
-		attr_accessor :timestamp         # when was the message sent?
-		attr_accessor :id_user           # id of the sender
-		attr_accessor :user              # class User for the sender
-		attr_accessor :bot               # name of the bot
+	module FB
+		class Message
+			attr_accessor :id                # unique id of the message 
+			attr_accessor :seq               # id of the message in the conversation
+			attr_accessor :text              # content of the message
+			attr_accessor :timestamp         # when was the message sent?
+			attr_accessor :id_user           # id of the sender
+			attr_accessor :user              # class User for the sender
+			attr_accessor :bot               # name of the bot
 
-		def initialize(id_message, text, seq, bot)
-			@id         = id_message
-			@text       = text
-			@seq        = seq
-			@bot        = bot
-		end 
+			def initialize(id_message, text, seq, bot)
+				@id         = id_message
+				@text       = text
+				@seq        = seq
+				@bot        = bot
+			end 
+		end
+
+		class Postback
+			attr_accessor :payload           # payload parameter that was defined with the button
+			attr_accessor :referral          # Comes only with Get Started postback and if an optional ref param was passed from the entry point, such as m.me link
+			attr_accessor :source            # shortlink
+			attr_accessor :type         	 # open thread
+
+			def initialize(postback)
+				@payload   = postback.payload
+				@ref       = postback.referral.nil? ? nil : postback.referral.ref
+				@source    = postback.referral.nil? ? nil : postback.referral.source
+				@type      = postback.referral.nil? ? nil : postback.referral.type
+			end 
+		end
 	end
 end

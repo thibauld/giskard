@@ -24,17 +24,21 @@ module Giskard
 		format :json
 
 		def self.send(payload,type="messages",file_url=nil)
+			Bot.log.debug "envoi de #{payload} via #{type}....."
 			if file_url.nil? then
-				RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}", payload.to_json, :content_type => :json
+				res = RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}", payload.to_json, :content_type => :json
 			else # image upload # FIXME file upload does not work : 400 Bad Request
 				params={"recipient"=>payload['recipient'], "message"=>payload['message'], "filedata"=>File.new(file_url,'rb'),"multipart"=>true}
-				RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}",params
+				res = RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}",params
 			end
+			Bot.log.debug "#{res.code}"
 		end
 
 		def self.init() 
-			payload={ "setting_type"=>"greeting", "greeting"=>{ "text"=>"Hello, ca fiouze ?" }}
-			Giskard::FBMessengerBot.send(payload,"thread_settings")
+			payload={ "greeting"=>[
+				{ "locale":"default","text"=>"Bonjour {{user_first_name}}, merci pour votre intérêt pour le jugement majoritaire !" }
+			]}
+			Giskard::FBMessengerBot.send(payload,"messenger_profile")
 		end
 
 		helpers do
@@ -42,10 +46,14 @@ module Giskard
 				headers['Secret-Key']==FB_SECRET
 			end
 
-			def send_msg(id,text,kbd=nil)
-				msg={"recipient"=>{"id"=>id},"message"=>{"text"=>text}}
+			def send_msg(id,text,kbd=nil,attachment=nil)
+				puts "attachment: #{attachment}"
+				msg={"recipient"=>{"id"=>id}}
 				if not kbd.nil? then
-					msg["message"]["quick_replies"]=[]
+					msg["message"]={
+						"text"=>text,
+						"quick_replies"=>[]
+					}
 					kbd.each do |k|
 						msg["message"]["quick_replies"].push({
 							"content_type"=>"text",
@@ -53,6 +61,14 @@ module Giskard
 							"payload"=>k
 						})
 					end
+				elsif not attachment.nil? then
+					msg["message"]={
+						"attachment"=>attachment
+					}
+				else
+					msg["message"]={
+						"text"=>text
+					}
 				end
 				Giskard::FBMessengerBot.send(msg)
 			end
@@ -78,6 +94,7 @@ module Giskard
 				idx=0
 				image=false
 				kbd=nil 
+				attachment=nil 
 				lines.each do |l|
 					next if l.empty?
 					idx+=1
@@ -100,10 +117,11 @@ module Giskard
 						if l.start_with?("no_preview:") then
 							l=l.split(':',2)[1]
 						end
+						attachment=options[:attachment]
 						if (idx==max)
 							kbd=options[:kbd]
 						end
-						send_msg(id,l,kbd)
+						send_msg(id,l,kbd,attachment)
 					end
 				end
 			end
@@ -123,24 +141,25 @@ module Giskard
 			entries     = params['entry']
 			entries.each do |entry|
 				entry.messaging.each do |messaging|
-					puts messaging
+					Bot.log.debug "#{messaging}"
+
 					id_sender = messaging.sender.id
 					id_receiv = messaging.recipient.id
 					id        = messaging.message.nil? ? nil : messaging.message.mid
 					seq       = messaging.message.nil? ? nil : messaging.message.seq
-					timestamp = messaging.time
+					timestamp = messaging.timestamp
+					postback  = messaging.postback
 					if not messaging.message.nil? then
-						text      = messaging.message.text
+						msg = Giskard::FB::Message.new(id, messaging.message.text, seq, FB_BOT_NAME)
 					elsif not postback.nil? then
-						text      = postback.payload
+						msg = Giskard::FB::Message.new(id, postback.payload, seq, FB_BOT_NAME)
+						pb  = Giskard::FB::Postback.new(postback)
 					end
 					user     = Bot::User.new()
 					user.id  = id_sender
 					user.bot = FB_BOT_NAME
-
-					if not text.nil? then
+					if not msg.nil? then
 						# read message
-						msg           = Giskard::Message.new(id, text, seq, FB_BOT_NAME)
 						msg.timestamp = timestamp
 						screen        = Bot.nav.get(msg, user)
 						# send answer

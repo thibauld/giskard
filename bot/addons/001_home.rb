@@ -33,6 +33,10 @@ END
 					:menu=><<-END,
 What do you want to do ? Please use below buttons to tell me what you would like to do.
 END
+					:jm_yes_answer=>"Yes I do",
+					:jm_yes=><<-END,
+Great ! Let's proceed directly to the vote then.
+END
 					:ask_email_answer=>"My email",
 					:ask_email=><<-END,
 What is your email ?
@@ -43,9 +47,13 @@ END
 					:email_wrong=><<-END,
 Hmmm... %{email} doesn't look like a valid email #{Bot.emoticons[:confused]}
 END
-					:my_action_2_answer=>"Action 2",
-					:my_action_2=><<-END,
-Texte for action 2
+					:jm_no_answer=>"No, please tell me more",
+					:jm_no=><<-END,
+Sure thing !
+The majority judgement is [blabla...]
+END
+					:official_candidates=><<-END,
+Having considered everything, how would you rate the following candidates :
 END
 				}
 			},
@@ -53,18 +61,17 @@ END
 				:home=>{
 					:welcome_answer=>"/start",
 					:welcome=><<-END,
-Bonjour %{firstname} !
-Je suis Victoire, votre guide pour LaPrimaire #{Bot.emoticons[:blush]}
-Mon rôle est de vous accompagner et de vous informer tout au long du déroulement de La Primaire.
-Mais assez discuté, commençons !
+Bonjour !
+Merci de votre participation à cette expérimentation scientifique. Sachez que votre vote est anonyme et que vos données personnelles ne sont pas enregistrées.
+En introduction, connaissez-vous déjà le jugement majoritaire ?
 END
 					:menu_answer=>"#{Bot.emoticons[:home]} Accueil",
 					:menu=><<-END,
 Que voulez-vous faire ? Utilisez les boutons du menu ci-dessous pour m'indiquer ce que vous souhaitez faire.
 END
-					:ask_email_answer=>"Mon email",
-					:ask_email=><<-END,
-Quel est votre email ?
+					:jm_yes_answer=>"Oui je connais déjà",
+					:jm_yes=><<-END,
+Parfait, nous pouvons donc dès à présent procéder au vote !
 END
 					:email_saved=><<-END,
 Votre email est %{email} !
@@ -72,9 +79,13 @@ END
 					:email_wrong=><<-END,
 Hmmm... %{email} n'est pas un email valide #{Bot.emoticons[:confused]}
 END
-					:my_action_2_answer=>"Action 2",
-					:my_action_2=><<-END,
-Texte pour l'action 2
+					:jm_no_answer=>"Non, dites m'en plus",
+					:jm_no=><<-END,
+Avec plaisir !
+Le jugement majoritaire c'est [blabla...]
+END
+					:official_candidates=><<-END,
+Ayant pris en considération tout ce qui va bien, comment jugez-vous les candidats suivants :
 END
 				}
 			}
@@ -83,19 +94,23 @@ END
 			:home=>{
 				:welcome=>{
 					:answer=>"home/welcome_answer",
-					:disable_web_page_preview=>true,
-					:callback=>"home/welcome",
-					:jump_to=>"home/menu"
+					:kbd=>["home/jm_no","home/jm_yes"],
+					:kbd_options=>{:resize_keyboard=>true,:one_time_keyboard=>false,:selective=>true}
 				},
 				:menu=>{
 					:answer=>"home/menu_answer",
-					:callback=>"home/menu",
+					#:callback=>"home/menu",
 					:parse_mode=>"HTML",
-					:kbd=>["home/ask_email","home/my_action_2"],
+					:kbd=>["home/jm_no","home/jm_yes"],
 					:kbd_options=>{:resize_keyboard=>true,:one_time_keyboard=>false,:selective=>true}
 				},
-				:ask_email=>{
-					:answer=>"home/ask_email_answer",
+				:jm_yes=>{
+					:answer=>"home/jm_yes_answer",
+					:callback=>"home/ask_email",
+					:jump_to=>"home/official_candidates"
+				},
+				:jm_no=>{
+					:answer=>"home/jm_no_answer",
 					:callback=>"home/ask_email",
 				},
 				:email_saved=>{
@@ -104,9 +119,42 @@ END
 				:email_wrong=>{
 					:jump_to=>"home/menu"
 				},
-				:my_action_2=>{
-					:answer=>"home/my_action_2_answer",
-					:jump_to=>"home/menu"
+				:official_candidates=>{
+					:attachment=>{
+						"type"=>"template",
+						"payload"=>{
+							"template_type"=>"generic",
+							"elements"=>[
+								{
+									"title"=>"Francois Fillon",
+									"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/candidats/francois-fillon.jpg",
+									"subtitle"=>"Comment évaluriez-vous Francois Fillon ?",
+									"default_action"=>{
+										"type"=>"web_url",
+										"url"=>"https://laprimaire.org",
+										"messenger_extensions"=>true,
+										"webview_height_ratio"=>"tall",
+										"fallback_url"=>"https://legislatives.laprimaire.org"
+									},
+									"buttons"=>[
+										{
+											"type"=>"postback",
+											"title"=>"Très bien",
+											"payload"=>"Très bien"
+										},{
+											"type"=>"postback",
+											"title"=>"Bien",
+											"payload"=>"Bien"
+										},{
+											"type"=>"postback",
+											"title"=>"Assez bien",
+											"payload"=>"Assez bien"
+										}
+									]
+								}
+							]
+						}
+					}
 				}
 			}
 		}
