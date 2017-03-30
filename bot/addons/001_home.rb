@@ -55,6 +55,17 @@ END
 					:official_candidates=><<-END,
 Having considered everything, how would you rate the following candidates :
 END
+					:tres_bien=>"Very good",
+					:bien=>"Good",
+					:assez_bien=>"Rather good",
+					:passable=>"Mediocre",
+					:insuffisant=>"Insufficient",
+					:a_rejeter=>"Rejected",
+					:understood=>"Ok understood\n",
+					:francois_fillon_answer=>"F. Fillon",
+					:francois_fillon=>"How would you rate François Fillon ?",
+					:nicolas_dupont_aignan_answer=>"N. Dupont-Aignan",
+					:nicolas_dupont_aignan=>"How would you rate Nicolas Dupont-Aignan ?",
 				}
 			},
 			:fr=>{
@@ -87,6 +98,17 @@ END
 					:official_candidates=><<-END,
 Ayant pris en considération tout ce qui va bien, comment jugez-vous les candidats suivants :
 END
+					:tres_bien=>"Très bien",
+					:bien=>"Bien",
+					:assez_bien=>"Assez bien",
+					:passable=>"Passable",
+					:insuffisant=>"Insuffisant",
+					:a_rejeter=>"A rejeter",
+					:understood=>"Ok bien noté\n",
+					:francois_fillon_answer=>"F. Fillon",
+					:francois_fillon=>"Comment noteriez-vous François Fillon",
+					:nicolas_dupont_aignan_answer=>"N. Dupont-Aignan",
+					:nicolas_dupont_aignan=>"Comment noteriez-vous Nicolas Dupont-Aignan ?",
 				}
 			}
 		}
@@ -94,24 +116,28 @@ END
 			:home=>{
 				:welcome=>{
 					:answer=>"home/welcome_answer",
-					:kbd=>["home/jm_no","home/jm_yes"],
+					:kbd=>[
+						{"text"=>"home/jm_no"},
+						{"text"=>"home/jm_yes"}
+					],
 					:kbd_options=>{:resize_keyboard=>true,:one_time_keyboard=>false,:selective=>true}
 				},
 				:menu=>{
 					:answer=>"home/menu_answer",
 					#:callback=>"home/menu",
 					:parse_mode=>"HTML",
-					:kbd=>["home/jm_no","home/jm_yes"],
-					:kbd_options=>{:resize_keyboard=>true,:one_time_keyboard=>false,:selective=>true}
+					:kbd=>[
+						{"text"=>"home/jm_no"},
+						{"text"=>"home/jm_yes"}
+					]
 				},
 				:jm_yes=>{
 					:answer=>"home/jm_yes_answer",
-					:callback=>"home/ask_email",
 					:jump_to=>"home/official_candidates"
 				},
 				:jm_no=>{
 					:answer=>"home/jm_no_answer",
-					:callback=>"home/ask_email",
+					:jump_to=>"home/fillon"
 				},
 				:email_saved=>{
 					:jump_to=>"home/menu"
@@ -119,48 +145,93 @@ END
 				:email_wrong=>{
 					:jump_to=>"home/menu"
 				},
+				:tres_bien=>{
+					:answer=>"home/tres_bien",
+					:jump_to=>"home/understood"
+				},
+				:bien=>{
+					:answer=>"home/bien",
+					:jump_to=>"home/understood"
+				},
+				:assez_bien=>{
+					:answer=>"home/assez_bien",
+					:jump_to=>"home/understood"
+				},
+				:passable=>{
+					:answer=>"home/passable",
+					:jump_to=>"home/understood"
+				},
+				:insuffisant=>{
+					:answer=>"home/insuffisant",
+					:jump_to=>"home/understood"
+				},
+				:a_rejeter=>{
+					:answer=>"home/a_rejeter",
+					:jump_to=>"home/understood"
+				},
+				:understood=>{
+					:jump_to=>"home/official_candidates"
+				},
 				:official_candidates=>{
-					:attachment=>{
-						"type"=>"template",
-						"payload"=>{
-							"template_type"=>"generic",
-							"elements"=>[
-								{
-									"title"=>"Francois Fillon",
-									"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/candidats/francois-fillon.jpg",
-									"subtitle"=>"Comment évaluriez-vous Francois Fillon ?",
-									"default_action"=>{
-										"type"=>"web_url",
-										"url"=>"https://laprimaire.org",
-										"messenger_extensions"=>true,
-										"webview_height_ratio"=>"tall",
-										"fallback_url"=>"https://legislatives.laprimaire.org"
-									},
-									"buttons"=>[
-										{
-											"type"=>"postback",
-											"title"=>"Très bien",
-											"payload"=>"Très bien"
-										},{
-											"type"=>"postback",
-											"title"=>"Bien",
-											"payload"=>"Bien"
-										},{
-											"type"=>"postback",
-											"title"=>"Assez bien",
-											"payload"=>"Assez bien"
-										}
-									]
-								}
-							]
-						}
-					}
+					:kbd=>[
+						{"text"=>"home/nicolas_dupont_aignan"},
+						#"home/marine_le_pen",
+						#"home/emmanuel_macron",
+						#"home/benoit_hamon",
+						#"home/nathalie_arthaud",
+						#"home/philippe_poutou",
+						#"home/jacques_cheminade",
+						#"home/jean_lassalle",
+						#"home/jean_luc_melenchon",
+						#"home/francois_asselineau",
+						{"text"=>"home/francois_fillon"}
+					]
+				},
+				:francois_fillon=>{
+					:answer=>"home/francois_fillon_answer",
+					:kbd=>[
+						{"text"=>"home/tres_bien","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/tresbien.png" },
+						{"text"=>"home/bien", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/bien.png" },
+						{"text"=>"home/assez_bien", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/assezbien.png" },
+						{"text"=>"home/passable", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/passable.png" },
+						{"text"=>"home/insuffisant", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/insuffisant.png" },
+						{"text"=>"home/a_rejeter", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/arejeter.png" }
+					]
+				},
+				:nicolas_dupont_aignan=>{
+					:answer=>"home/nicolas_dupont_aignan_answer",
+					:kbd=>[
+						{"text"=>"home/tres_bien","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/tresbien.png" },
+						{"text"=>"home/bien", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/bien.png" },
+						{"text"=>"home/assez_bien", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/assezbien.png" },
+						{"text"=>"home/passable", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/passable.png" },
+						{"text"=>"home/insuffisant", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/insuffisant.png" },
+						{"text"=>"home/a_rejeter", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/arejeter.png" }
+					],
+					#:kbd=>[
+					#	"home/tres_bien",
+					#	"home/bien",
+					#	"home/assez_bien",
+					#	"home/passable",
+					#	"home/insuffisant",
+					#	"home/a_rejeter"
+					#],
+					#:options=>{
+					#	:kbd=>{
+					#		"home/tres_bien"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/tresbien.png" },
+					#		"home/bien"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/bien.png" },
+					#		"home/assez_bien"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/assezbien.png" },
+					#		"home/passable"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/passable.png" },
+					#		"home/insuffisant"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/insuffisant.png" },
+					#		"home/a_rejeter"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/arejeter.png" }
+					#	}
+					#}
 				}
 			}
 		}
 		Bot.updateScreens(screens)
 		Bot.updateMessages(messages)
-		Bot.addMenu({:home=>{:menu=>{:kbd=>"home/menu"}}})
+		Bot.addMenu({:home=>{:menu=>{:kbd=>{"text"=>"home/menu"}}}})
 	end
 
 	def home_welcome(msg,user,screen)

@@ -59,11 +59,13 @@ module Bot
 					t=nil
 					n1,n2=self.nodes(k).map &:to_sym
 					size=@screens[n1][n2][:kbd].length
-					@screens[n1][n2][:kbd].each_with_index do |u,i|
-						m1,m2=self.nodes(u).map &:to_sym
+					@screens[n1][n2][:kbd].each do |u|
+						m1,m2=self.nodes(u['text']).map &:to_sym
 						raise "Screen identifier #{m1}/#{m2} does not exist" if @screens[m1].nil? or @screens[m1][m2].nil?
 						item=Bot.getMessage(@screens[m1][m2][:answer],l)
-						@keyboards[l][k].push(item)
+						tmp_key=u.clone
+						tmp_key['text']=item
+						@keyboards[l][k].push(tmp_key)
 					end
 				end
 			end

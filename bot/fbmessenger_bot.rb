@@ -24,14 +24,13 @@ module Giskard
 		format :json
 
 		def self.send(payload,type="messages",file_url=nil)
-			Bot.log.debug "envoi de #{payload} via #{type}....."
 			if file_url.nil? then
 				res = RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}", payload.to_json, :content_type => :json
 			else # image upload # FIXME file upload does not work : 400 Bad Request
 				params={"recipient"=>payload['recipient'], "message"=>payload['message'], "filedata"=>File.new(file_url,'rb'),"multipart"=>true}
 				res = RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}",params
 			end
-			Bot.log.debug "#{res.code}"
+			Bot.log.debug "envoi de #{payload} via #{type}.....#{res.code}"
 		end
 
 		def self.init() 
@@ -47,7 +46,6 @@ module Giskard
 			end
 
 			def send_msg(id,text,kbd=nil,attachment=nil)
-				puts "attachment: #{attachment}"
 				msg={"recipient"=>{"id"=>id}}
 				if not kbd.nil? then
 					msg["message"]={
@@ -55,11 +53,16 @@ module Giskard
 						"quick_replies"=>[]
 					}
 					kbd.each do |k|
-						msg["message"]["quick_replies"].push({
+						title=k['title'].nil? ? k['text'] : k['title']
+						payload=k['payload'].nil? ? k['text'] : k['payload']
+						image_url=k['image_url'].nil? ? nil : k['image_url']
+						qr={
 							"content_type"=>"text",
-							"title"=>k,
-							"payload"=>k
-						})
+							"title"=>title,
+							"payload"=>payload
+						}
+						qr["image_url"]=image_url unless image_url.nil?
+						msg["message"]["quick_replies"].push(qr)
 					end
 				elsif not attachment.nil? then
 					msg["message"]={
@@ -142,7 +145,6 @@ module Giskard
 			entries.each do |entry|
 				entry.messaging.each do |messaging|
 					Bot.log.debug "#{messaging}"
-
 					id_sender = messaging.sender.id
 					id_receiv = messaging.recipient.id
 					id        = messaging.message.nil? ? nil : messaging.message.mid

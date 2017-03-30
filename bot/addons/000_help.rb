@@ -58,8 +58,9 @@ END
 				:first_help=>{
 					:callback=>"help/first_help_cb",
 					:save_session=>true,
-					:kbd=>["help/first_help_ok"],
-					:kbd_options=>{:resize_keyboard=>true,:one_time_keyboard=>false,:selective=>true},
+					:kbd=>[
+						{"text"=>"help/first_help_ok"}
+					],
 					:disable_web_page_preview=>true
 				}
 			}
