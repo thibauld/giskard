@@ -26,7 +26,7 @@ module Giskard
 		def self.send(payload,type="messages",file_url=nil)
 			if file_url.nil? then
 				res = RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}", payload.to_json, :content_type => :json
-			else # image upload # FIXME file upload does not work : 400 Bad Request
+			else # image upload 
 				params={"recipient"=>payload['recipient'], "message"=>payload['message'], "filedata"=>File.new(file_url,'rb'),"multipart"=>true}
 				res = RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}",params
 			end
@@ -120,9 +120,9 @@ module Giskard
 						if l.start_with?("no_preview:") then
 							l=l.split(':',2)[1]
 						end
-						attachment=options[:attachment]
 						if (idx==max)
 							kbd=options[:kbd]
+							attachment=options[:attachment]
 						end
 						send_msg(id,l,kbd,attachment)
 					end

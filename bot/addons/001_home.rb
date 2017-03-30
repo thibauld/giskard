@@ -24,48 +24,50 @@ module Home
 				:home=>{
 					:welcome_answer=>"/start",
 					:welcome=><<-END,
-Hello %{firstname} !
+Hello %{nb_left} !
 My name is Giskard, I am an intelligent bot.. or at least as intelligent as you make me #{Bot.emoticons[:smile]}
 This is an example program for you to get acustomed to how I work.
 But enough talking, let's begin !
 END
-					:menu_answer=>"#{Bot.emoticons[:home]} Home",
-					:menu=><<-END,
-What do you want to do ? Please use below buttons to tell me what you would like to do.
-END
 					:jm_yes_answer=>"Yes I do",
 					:jm_yes=><<-END,
 Great ! Let's proceed directly to the vote then.
-END
-					:ask_email_answer=>"My email",
-					:ask_email=><<-END,
-What is your email ?
-END
-					:email_saved=><<-END,
-Your email is %{email} !
-END
-					:email_wrong=><<-END,
-Hmmm... %{email} doesn't look like a valid email #{Bot.emoticons[:confused]}
 END
 					:jm_no_answer=>"No, please tell me more",
 					:jm_no=><<-END,
 Sure thing !
 The majority judgement is [blabla...]
 END
-					:official_candidates=><<-END,
-Having considered everything, how would you rate the following candidates :
+					:vote_completed=><<-END,
+Bravo ! Vous avez voté pour tous les candidats. Souhaitez-vous valider votre vote ou bien modifier certains de vos choix ?
 END
-					:tres_bien=>"Very good",
-					:bien=>"Good",
-					:assez_bien=>"Rather good",
-					:passable=>"Mediocre",
-					:insuffisant=>"Insufficient",
-					:a_rejeter=>"Rejected",
+					:validate_yes_answer=>"Je valide mes choix",
+					:validate_yes=><<-END,
+Merci beaucoup pour votre participation !
+END
+					:validate_no_answer=>"Modifier mes choix",
+					:validate_no=><<-END,
+Pas de souci, on a tout notre temps :)
+END
+					:official_candidates=><<-END,
+You have %{nb_left} candidates left to judge:
+END
+					:tres_bien_answer=>"Very good",
+					:bien_answer=>"Good",
+					:assez_bien_answer=>"Rather good",
+					:passable_answer=>"Mediocre",
+					:insuffisant_answer=>"Insufficient",
+					:a_rejeter_answer=>"Rejected",
 					:understood=>"Ok understood\n",
 					:francois_fillon_answer=>"F. Fillon",
 					:francois_fillon=>"How would you rate François Fillon ?",
 					:nicolas_dupont_aignan_answer=>"N. Dupont-Aignan",
 					:nicolas_dupont_aignan=>"How would you rate Nicolas Dupont-Aignan ?",
+					:nathalie_arthaud_answer=>"N. Arthaud",
+					:nathalie_arthaud=><<END,
+image:https://s3.eu-central-1.amazonaws.com/laprimaire/candidats/nathalie-arthaud.jpg
+Pour présider la France, ayant pris tous les éléments en compte, je juge en conscience que Nathalie Arthaud serait:
+END
 				}
 			},
 			:fr=>{
@@ -76,39 +78,53 @@ Bonjour !
 Merci de votre participation à cette expérimentation scientifique. Sachez que votre vote est anonyme et que vos données personnelles ne sont pas enregistrées.
 En introduction, connaissez-vous déjà le jugement majoritaire ?
 END
-					:menu_answer=>"#{Bot.emoticons[:home]} Accueil",
-					:menu=><<-END,
-Que voulez-vous faire ? Utilisez les boutons du menu ci-dessous pour m'indiquer ce que vous souhaitez faire.
-END
 					:jm_yes_answer=>"Oui je connais déjà",
 					:jm_yes=><<-END,
 Parfait, nous pouvons donc dès à présent procéder au vote !
-END
-					:email_saved=><<-END,
-Votre email est %{email} !
-END
-					:email_wrong=><<-END,
-Hmmm... %{email} n'est pas un email valide #{Bot.emoticons[:confused]}
 END
 					:jm_no_answer=>"Non, dites m'en plus",
 					:jm_no=><<-END,
 Avec plaisir !
 Le jugement majoritaire c'est [blabla...]
 END
-					:official_candidates=><<-END,
-Ayant pris en considération tout ce qui va bien, comment jugez-vous les candidats suivants :
+					:vote_completed=><<-END,
+Bravo ! Vous avez voté pour tous les candidats. Souhaitez-vous valider votre vote ou bien modifier certains de vos choix ?
 END
-					:tres_bien=>"Très bien",
-					:bien=>"Bien",
-					:assez_bien=>"Assez bien",
-					:passable=>"Passable",
-					:insuffisant=>"Insuffisant",
-					:a_rejeter=>"A rejeter",
+					:validate_yes_answer=>"Je valide",
+					:validate_yes=><<-END,
+Merci beaucoup pour votre participation !
+END
+					:validate_no_answer=>"Je modifie",
+					:validate_no=><<-END,
+Pas de souci, on a tout notre temps :)
+END
+
+					:official_candidates=><<-END,
+Il vous reste encore %{nb_left} candidat(e)s à évaluer :
+END
+					:tres_bien_answer=>"Très bien",
+					:bien_answer=>"Bien",
+					:assez_bien_answer=>"Assez bien",
+					:passable_answer=>"Passable",
+					:insuffisant_answer=>"Insuffisant",
+					:a_rejeter_answer=>"A rejeter",
 					:understood=>"Ok bien noté\n",
 					:francois_fillon_answer=>"F. Fillon",
-					:francois_fillon=>"Comment noteriez-vous François Fillon",
+					:francois_fillon=><<END,
+image:https://s3.eu-central-1.amazonaws.com/laprimaire/candidats/francois-fillon.jpg
+Pour présider la France, ayant pris tous les éléments en compte, je juge en conscience que François Fillon serait:
+END
 					:nicolas_dupont_aignan_answer=>"N. Dupont-Aignan",
-					:nicolas_dupont_aignan=>"Comment noteriez-vous Nicolas Dupont-Aignan ?",
+					:nicolas_dupont_aignan=><<END,
+image:https://s3.eu-central-1.amazonaws.com/laprimaire/candidats/nicolas-dupont-aignan.jpg
+Pour présider la France, ayant pris tous les éléments en compte, je juge en conscience que Nicolas Dupont-Aignan serait:
+END
+					:nathalie_arthaud_answer=>"N. Arthaud",
+					:nathalie_arthaud=><<END,
+image:https://s3.eu-central-1.amazonaws.com/laprimaire/candidats/nathalie-arthaud.jpg
+Pour présider la France, ayant pris tous les éléments en compte, je juge en conscience que Nathalie Arthaud serait:
+END
+
 				}
 			}
 		}
@@ -116,16 +132,7 @@ END
 			:home=>{
 				:welcome=>{
 					:answer=>"home/welcome_answer",
-					:kbd=>[
-						{"text"=>"home/jm_no"},
-						{"text"=>"home/jm_yes"}
-					],
-					:kbd_options=>{:resize_keyboard=>true,:one_time_keyboard=>false,:selective=>true}
-				},
-				:menu=>{
-					:answer=>"home/menu_answer",
-					#:callback=>"home/menu",
-					:parse_mode=>"HTML",
+					:callback=>"home/welcome_cb",
 					:kbd=>[
 						{"text"=>"home/jm_no"},
 						{"text"=>"home/jm_yes"}
@@ -133,110 +140,178 @@ END
 				},
 				:jm_yes=>{
 					:answer=>"home/jm_yes_answer",
-					:jump_to=>"home/official_candidates"
+					#:jump_to=>"home/official_candidates"
+					:jump_to=>"home/validate_yes"
 				},
 				:jm_no=>{
 					:answer=>"home/jm_no_answer",
-					:jump_to=>"home/fillon"
+					:jump_to=>"home/official_candidates"
 				},
-				:email_saved=>{
-					:jump_to=>"home/menu"
+				:vote_completed=>{
+					:kbd=>[
+						{"text"=>"home/validate_yes"},
+						{"text"=>"home/validate_no"}
+					]
 				},
-				:email_wrong=>{
-					:jump_to=>"home/menu"
+				:validate_yes=>{
+					:answer=>"home/validate_yes_answer",
+					:attachment=>{
+						"type":"template",
+						"payload"=>{
+							"template_type"=>"generic",
+							"elements"=>[
+								{
+									"title"=>"Utilisez le Jugement Majoritaire pour les législatives",
+									"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/logos/logo_laprimaire_200x75.jpg",
+									"subtitle"=>"Choisissez vos candidats pour les législatives !",
+									"buttons"=>[
+										{
+											"type"=>"web_url",
+											"title"=>"Voter aux législatives",
+											"url"=>"https://laprimaire.org"
+										}              
+									]      
+								}
+							]
+						}
+					}
+
+				},
+				:validate_no=>{
+					:answer=>"home/validate_no_answer",
+					:jump_to=>"home/official_candidates"
 				},
 				:tres_bien=>{
-					:answer=>"home/tres_bien",
+					:answer=>"home/tres_bien_answer",
+					:callback=>"home/save_rating_cb",
 					:jump_to=>"home/understood"
 				},
 				:bien=>{
-					:answer=>"home/bien",
+					:answer=>"home/bien_answer",
+					:callback=>"home/save_rating_cb",
 					:jump_to=>"home/understood"
 				},
 				:assez_bien=>{
-					:answer=>"home/assez_bien",
+					:answer=>"home/assez_bien_answer",
+					:callback=>"home/save_rating_cb",
 					:jump_to=>"home/understood"
 				},
 				:passable=>{
-					:answer=>"home/passable",
+					:answer=>"home/passable_answer",
+					:callback=>"home/save_rating_cb",
 					:jump_to=>"home/understood"
 				},
 				:insuffisant=>{
-					:answer=>"home/insuffisant",
+					:answer=>"home/insuffisant_answer",
+					:callback=>"home/save_rating_cb",
 					:jump_to=>"home/understood"
 				},
 				:a_rejeter=>{
-					:answer=>"home/a_rejeter",
+					:answer=>"home/a_rejeter_answer",
+					:callback=>"home/save_rating_cb",
 					:jump_to=>"home/understood"
 				},
 				:understood=>{
 					:jump_to=>"home/official_candidates"
 				},
 				:official_candidates=>{
+					:callback=>"home/display_candidates_cb",
 					:kbd=>[
-						{"text"=>"home/nicolas_dupont_aignan"},
+						{"text"=>"home/nicolas_dupont_aignan","payload"=>"home/nicolas_dupont_aignan"},
 						#"home/marine_le_pen",
 						#"home/emmanuel_macron",
 						#"home/benoit_hamon",
-						#"home/nathalie_arthaud",
+						{"text"=>"home/nathalie_arthaud", "payload"=>"home/nathalie_arthaud"},
 						#"home/philippe_poutou",
 						#"home/jacques_cheminade",
 						#"home/jean_lassalle",
 						#"home/jean_luc_melenchon",
 						#"home/francois_asselineau",
-						{"text"=>"home/francois_fillon"}
+						{"text"=>"home/francois_fillon","payload"=>"home/francois_fillon"}
 					]
 				},
 				:francois_fillon=>{
 					:answer=>"home/francois_fillon_answer",
+					:callback=>"home/rate_candidate_cb",
 					:kbd=>[
-						{"text"=>"home/tres_bien","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/tresbien.png" },
-						{"text"=>"home/bien", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/bien.png" },
-						{"text"=>"home/assez_bien", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/assezbien.png" },
-						{"text"=>"home/passable", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/passable.png" },
-						{"text"=>"home/insuffisant", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/insuffisant.png" },
-						{"text"=>"home/a_rejeter", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/arejeter.png" }
+						{"text"=>"home/tres_bien","image_url"=>IMG_PATH+"tres_bien.png" },
+						{"text"=>"home/bien", "image_url"=>IMG_PATH+"bien.png" },
+						{"text"=>"home/assez_bien", "image_url"=>IMG_PATH+"assez_bien.png" },
+						{"text"=>"home/passable", "image_url"=>IMG_PATH+"passable.png" },
+						{"text"=>"home/insuffisant", "image_url"=>IMG_PATH+"insuffisant.png" },
+						{"text"=>"home/a_rejeter", "image_url"=>IMG_PATH+"a_rejeter.png" }
 					]
 				},
 				:nicolas_dupont_aignan=>{
 					:answer=>"home/nicolas_dupont_aignan_answer",
+					:callback=>"home/rate_candidate_cb",
 					:kbd=>[
-						{"text"=>"home/tres_bien","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/tresbien.png" },
-						{"text"=>"home/bien", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/bien.png" },
-						{"text"=>"home/assez_bien", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/assezbien.png" },
-						{"text"=>"home/passable", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/passable.png" },
-						{"text"=>"home/insuffisant", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/insuffisant.png" },
-						{"text"=>"home/a_rejeter", "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/arejeter.png" }
+						{"text"=>"home/tres_bien","image_url"=>IMG_PATH+"tres_bien.png" },
+						{"text"=>"home/bien", "image_url"=>IMG_PATH+"bien.png" },
+						{"text"=>"home/assez_bien", "image_url"=>IMG_PATH+"assez_bien.png" },
+						{"text"=>"home/passable", "image_url"=>IMG_PATH+"passable.png" },
+						{"text"=>"home/insuffisant", "image_url"=>IMG_PATH+"insuffisant.png" },
+						{"text"=>"home/a_rejeter", "image_url"=>IMG_PATH+"a_rejeter.png" }
 					],
-					#:kbd=>[
-					#	"home/tres_bien",
-					#	"home/bien",
-					#	"home/assez_bien",
-					#	"home/passable",
-					#	"home/insuffisant",
-					#	"home/a_rejeter"
-					#],
-					#:options=>{
-					#	:kbd=>{
-					#		"home/tres_bien"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/tresbien.png" },
-					#		"home/bien"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/bien.png" },
-					#		"home/assez_bien"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/assezbien.png" },
-					#		"home/passable"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/passable.png" },
-					#		"home/insuffisant"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/insuffisant.png" },
-					#		"home/a_rejeter"=>{ "image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/arejeter.png" }
-					#	}
-					#}
+				},
+				:nathalie_arthaud=>{
+					:answer=>"home/nathalie_arthaud_answer",
+					:callback=>"home/rate_candidate_cb",
+					:kbd=>[
+						{"text"=>"home/tres_bien","image_url"=>IMG_PATH+"tres_bien.png" },
+						{"text"=>"home/bien", "image_url"=>IMG_PATH+"bien.png" },
+						{"text"=>"home/assez_bien", "image_url"=>IMG_PATH+"assez_bien.png" },
+						{"text"=>"home/passable", "image_url"=>IMG_PATH+"passable.png" },
+						{"text"=>"home/insuffisant", "image_url"=>IMG_PATH+"insuffisant.png" },
+						{"text"=>"home/a_rejeter", "image_url"=>IMG_PATH+"a_rejeter.png" }
+					],
 				}
+
 			}
 		}
 		Bot.updateScreens(screens)
 		Bot.updateMessages(messages)
-		Bot.addMenu({:home=>{:menu=>{:kbd=>{"text"=>"home/menu"}}}})
 	end
 
-	def home_welcome(msg,user,screen)
+	def home_welcome_cb(msg,user,screen)
 		Bot.log.info "#{__method__}"
-		screen=self.find_by_name("home/menu",self.get_locale(user))
+		user.set('rates',{})
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_display_candidates_cb(msg,user,screen)
+		Bot.log.info "#{__method__}"
+		rates=user.get('rates').nil? ? {} : user.get('rates')
+		nb_left=3-rates.length
+		if (nb_left==0) then
+			screen=self.find_by_name("home/vote_completed",self.get_locale(user))
+			return self.get_screen(screen,user,msg)
+		end
+		screen[:text]=screen[:text] % { nb_left: nb_left}
+		screen[:kbd].each_with_index do |c,i|
+			rates.each do |k,v|
+				if (c["payload"].split('/')[1]==k) then
+					mention=v.split('/')[1]
+					screen[:kbd][i]["image_url"]=IMG_PATH+"#{mention}.png"
+				end
+			end
+		end
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_rate_candidate_cb(msg,user,screen)
+		Bot.log.info "#{__method__}"
+		user.set('rated_candidate',screen[:id].split('/')[1])
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_save_rating_cb(msg,user,screen)
+		Bot.log.info "#{__method__}"
+		candidate=user.get('rated_candidate')
+		rates=user.get('rates').nil? ? {} : user.get('rates')
+		user.set('rates',rates.merge({candidate=>screen[:id]}))
+		user.unset('rated_candidate')
+		Bot.log.debug user.get('rates')
 		return self.get_screen(screen,user,msg)
 	end
 

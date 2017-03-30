@@ -89,6 +89,21 @@ module Bot
 			return screen
 		end
 
+		# store a key/value pair in user session
+		def set(kw,val)
+			@state[kw]=val
+		end
+
+		# read the value of a key in user session
+		def get(kw)
+			return @state[kw]
+		end
+
+		# delete a key/value pair from user session
+		def unset(kw)
+			@state.delete(kw)
+		end
+
 		# ___________________________________
 		# loading - saving
 		# -----------------------------------

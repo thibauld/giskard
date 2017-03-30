@@ -285,14 +285,16 @@ module Bot
 			} unless screen.nil? or screen[:text].nil?
 			locale=self.get_locale(user)
 			kbd=@keyboards[locale][screen[:id]].clone if @keyboards[locale][screen[:id]]
-			if screen[:kbd_del] then
-				screen[:kbd_del].each do |k|
-					n1,n2=self.nodes(k)
-					kbd.delete(Bot.getMessage(@screens[n1][n2][:answer],locale))
+			if not kbd.nil? then
+				if screen[:kbd_del] then
+					screen[:kbd_del].each do |k|
+						n1,n2=self.nodes(k)
+						kbd.delete(Bot.getMessage(@screens[n1][n2][:answer],locale))
+					end
 				end
+				screen[:kbd].each_with_index { |k,i| k.merge!(kbd[i]) }
+				screen[:kbd_add].each { |k| kbd.unshift(k) } if screen[:kbd_add]
 			end
-			screen[:kbd_add].each { |k| kbd.unshift(k) } if screen[:kbd_add]
-			screen[:kbd]=kbd
 			return screen
 		end
 	end
