@@ -140,8 +140,8 @@ END
 				},
 				:jm_yes=>{
 					:answer=>"home/jm_yes_answer",
-					#:jump_to=>"home/official_candidates"
-					:jump_to=>"home/validate_yes"
+					:jump_to=>"home/official_candidates"
+					#:jump_to=>"home/validate_yes"
 				},
 				:jm_no=>{
 					:answer=>"home/jm_no_answer",
@@ -160,6 +160,36 @@ END
 						"payload"=>{
 							"template_type"=>"generic",
 							"elements"=>[
+								{
+									"title"=>"Faites voter vos amis",
+									"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/merci.png",
+									"subtitle"=>"Merci d'avoir participé ! Partagez à vos amis !",
+									"buttons"=>[
+										{
+											"type"=>"element_share",
+											#"share_contents"=>{
+											#	"attachment"=>{
+											#		"type"=>"template",
+											#		"payload"=>{
+											#			"template_type"=>"generic",
+											#			"elements" => [
+											#				"title"=>"Votez au Jugement Majoritaire pour la Présidentielle",
+											#				"subtitle"=>"Une expérimentation scientifique menée par le CNRS, Dauphine et Polytechnique",
+											#				"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/merci.png",
+											#				"buttons"=>[
+											#					{
+											#						"type"=>"web_url",
+											#						"url"=>"https://m.me/JugementMajoritairePresidentielle2017",
+											#						"title"=>"Participer"
+											#					}
+											#				]
+											#			]
+											#		}
+											#	}
+											#}
+										}
+									]      
+								},
 								{
 									"title"=>"Utilisez le Jugement Majoritaire pour les législatives",
 									"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/logos/logo_laprimaire_200x75.jpg",
