@@ -34,19 +34,5 @@ module Giskard
 				@bot        = bot
 			end 
 		end
-
-		class Postback
-			attr_accessor :payload           # payload parameter that was defined with the button
-			attr_accessor :referral          # Comes only with Get Started postback and if an optional ref param was passed from the entry point, such as m.me link
-			attr_accessor :source            # shortlink
-			attr_accessor :type         	 # open thread
-
-			def initialize(postback)
-				@payload   = postback.payload
-				@ref       = postback.referral.nil? ? nil : postback.referral.ref
-				@source    = postback.referral.nil? ? nil : postback.referral.source
-				@type      = postback.referral.nil? ? nil : postback.referral.type
-			end 
-		end
 	end
 end

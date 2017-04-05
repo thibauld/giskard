@@ -24,7 +24,7 @@ module Home
 				:home=>{
 					:welcome_answer=>"/start",
 					:welcome=><<-END,
-Hello %{nb_left} !
+Hello !
 My name is Giskard, I am an intelligent bot.. or at least as intelligent as you make me #{Bot.emoticons[:smile]}
 This is an example program for you to get acustomed to how I work.
 But enough talking, let's begin !
@@ -49,7 +49,7 @@ END
 					:validate_no=><<-END,
 Pas de souci, on a tout notre temps :)
 END
-					:official_candidates=><<-END,
+					:official_candidates_to_del=><<-END,
 You have %{nb_left} candidates left to judge:
 END
 					:tres_bien_answer=>"Very good",
@@ -99,7 +99,7 @@ END
 Pas de souci, on a tout notre temps :)
 END
 
-					:official_candidates=><<-END,
+					:official_candidates_to_del=><<-END,
 Il vous reste encore %{nb_left} candidat(e)s à évaluer :
 END
 					:tres_bien_answer=>"Très bien",
@@ -167,26 +167,26 @@ END
 									"buttons"=>[
 										{
 											"type"=>"element_share",
-											#"share_contents"=>{
-											#	"attachment"=>{
-											#		"type"=>"template",
-											#		"payload"=>{
-											#			"template_type"=>"generic",
-											#			"elements" => [
-											#				"title"=>"Votez au Jugement Majoritaire pour la Présidentielle",
-											#				"subtitle"=>"Une expérimentation scientifique menée par le CNRS, Dauphine et Polytechnique",
-											#				"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/merci.png",
-											#				"buttons"=>[
-											#					{
-											#						"type"=>"web_url",
-											#						"url"=>"https://m.me/JugementMajoritairePresidentielle2017",
-											#						"title"=>"Participer"
-											#					}
-											#				]
-											#			]
-											#		}
-											#	}
-											#}
+											"share_contents"=>{
+												"attachment"=>{
+													"type"=>"template",
+													"payload"=>{
+														"template_type"=>"generic",
+														"elements" => [
+															"title"=>"Votez au Jugement Majoritaire pour la Présidentielle",
+															"subtitle"=>"Une expérimentation scientifique menée par le CNRS, Dauphine et Polytechnique",
+															"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/merci.png",
+															"buttons"=>[
+																{
+																	"type"=>"web_url",
+																	"url"=>"https://m.me/JugementMajoritairePresidentielle2017",
+																	"title"=>"Participer"
+																}
+															]
+														]
+													}
+												}
+											}
 										}
 									]      
 								},
@@ -205,98 +205,43 @@ END
 							]
 						}
 					}
-
 				},
 				:validate_no=>{
 					:answer=>"home/validate_no_answer",
 					:jump_to=>"home/official_candidates"
 				},
-				:tres_bien=>{
-					:answer=>"home/tres_bien_answer",
-					:callback=>"home/save_rating_cb",
-					:jump_to=>"home/understood"
-				},
-				:bien=>{
-					:answer=>"home/bien_answer",
-					:callback=>"home/save_rating_cb",
-					:jump_to=>"home/understood"
-				},
-				:assez_bien=>{
-					:answer=>"home/assez_bien_answer",
-					:callback=>"home/save_rating_cb",
-					:jump_to=>"home/understood"
-				},
-				:passable=>{
-					:answer=>"home/passable_answer",
-					:callback=>"home/save_rating_cb",
-					:jump_to=>"home/understood"
-				},
-				:insuffisant=>{
-					:answer=>"home/insuffisant_answer",
-					:callback=>"home/save_rating_cb",
-					:jump_to=>"home/understood"
-				},
-				:a_rejeter=>{
-					:answer=>"home/a_rejeter_answer",
-					:callback=>"home/save_rating_cb",
-					:jump_to=>"home/understood"
-				},
 				:understood=>{
 					:jump_to=>"home/official_candidates"
 				},
 				:official_candidates=>{
-					:callback=>"home/display_candidates_cb",
-					:kbd=>[
-						{"text"=>"home/nicolas_dupont_aignan","payload"=>"home/nicolas_dupont_aignan"},
-						#"home/marine_le_pen",
-						#"home/emmanuel_macron",
-						#"home/benoit_hamon",
-						{"text"=>"home/nathalie_arthaud", "payload"=>"home/nathalie_arthaud"},
-						#"home/philippe_poutou",
-						#"home/jacques_cheminade",
-						#"home/jean_lassalle",
-						#"home/jean_luc_melenchon",
-						#"home/francois_asselineau",
-						{"text"=>"home/francois_fillon","payload"=>"home/francois_fillon"}
-					]
-				},
-				:francois_fillon=>{
-					:answer=>"home/francois_fillon_answer",
-					:callback=>"home/rate_candidate_cb",
-					:kbd=>[
-						{"text"=>"home/tres_bien","image_url"=>IMG_PATH+"tres_bien.png" },
-						{"text"=>"home/bien", "image_url"=>IMG_PATH+"bien.png" },
-						{"text"=>"home/assez_bien", "image_url"=>IMG_PATH+"assez_bien.png" },
-						{"text"=>"home/passable", "image_url"=>IMG_PATH+"passable.png" },
-						{"text"=>"home/insuffisant", "image_url"=>IMG_PATH+"insuffisant.png" },
-						{"text"=>"home/a_rejeter", "image_url"=>IMG_PATH+"a_rejeter.png" }
-					]
-				},
-				:nicolas_dupont_aignan=>{
-					:answer=>"home/nicolas_dupont_aignan_answer",
-					:callback=>"home/rate_candidate_cb",
-					:kbd=>[
-						{"text"=>"home/tres_bien","image_url"=>IMG_PATH+"tres_bien.png" },
-						{"text"=>"home/bien", "image_url"=>IMG_PATH+"bien.png" },
-						{"text"=>"home/assez_bien", "image_url"=>IMG_PATH+"assez_bien.png" },
-						{"text"=>"home/passable", "image_url"=>IMG_PATH+"passable.png" },
-						{"text"=>"home/insuffisant", "image_url"=>IMG_PATH+"insuffisant.png" },
-						{"text"=>"home/a_rejeter", "image_url"=>IMG_PATH+"a_rejeter.png" }
-					],
-				},
-				:nathalie_arthaud=>{
-					:answer=>"home/nathalie_arthaud_answer",
-					:callback=>"home/rate_candidate_cb",
-					:kbd=>[
-						{"text"=>"home/tres_bien","image_url"=>IMG_PATH+"tres_bien.png" },
-						{"text"=>"home/bien", "image_url"=>IMG_PATH+"bien.png" },
-						{"text"=>"home/assez_bien", "image_url"=>IMG_PATH+"assez_bien.png" },
-						{"text"=>"home/passable", "image_url"=>IMG_PATH+"passable.png" },
-						{"text"=>"home/insuffisant", "image_url"=>IMG_PATH+"insuffisant.png" },
-						{"text"=>"home/a_rejeter", "image_url"=>IMG_PATH+"a_rejeter.png" }
-					],
+					:attachment=>{
+						"type":"template",
+						"payload"=>{
+							"template_type"=>"generic",
+							"elements"=>[
+								{
+									"title"=>"Votez au jugement majoritaire",
+									"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/merci.png",
+									"subtitle"=>"Allez allez on se bouge",
+									"buttons"=>[
+										{
+											"type"=>"web_url",
+											"title"=>"En avant guigamp !",
+											"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
+											"webview_height_ratio"=>"tall",
+											"webview_share_button"=>"hide",
+											"messenger_extensions"=>true,
+											"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_voting"
+										},
+										{
+											"type"=>"element_share"
+										}
+									]      
+								}
+							]
+						}
+					}
 				}
-
 			}
 		}
 		Bot.updateScreens(screens)

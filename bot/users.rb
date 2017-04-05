@@ -34,6 +34,7 @@ module Bot
 			## WARNING ## 
 			# This is for example purpose only and will work with only 1 unicorn process.
 			# If you use more than 1 unicorn process, you should save users in shared memory or a database to ensure data consistency between unicorn processes.
+			@users[user.id]=user
 			return 
 		end
 
@@ -59,7 +60,6 @@ module Bot
 			else
 				user = res.clone
 			end
-			@users[user.id]=user
 			return user # we have to return the user because Ruby has no native deep copy
 		end
 
