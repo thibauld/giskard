@@ -220,13 +220,13 @@ END
 							"template_type"=>"generic",
 							"elements"=>[
 								{
-									"title"=>"Votez au jugement majoritaire",
-									"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/merci.png",
-									"subtitle"=>"Allez allez on se bouge",
+									"title"=>"Votez au Jugement Majoritaire",
+									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/JM2017-foule900.jpg",
+									"subtitle"=>"Cliquez sur le bouton 'Je vote' pour évaluer pour les 11 candidat(e)s officiel(le)s",
 									"buttons"=>[
 										{
 											"type"=>"web_url",
-											"title"=>"En avant guigamp !",
+											"title"=>"Je vote !",
 											"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
 											"webview_height_ratio"=>"tall",
 											"webview_share_button"=>"hide",
