@@ -214,6 +214,7 @@ END
 					:jump_to=>"home/official_candidates"
 				},
 				:official_candidates=>{
+					:callback=>"home/official_candidates_cb",
 					:attachment=>{
 						"type":"template",
 						"payload"=>{
@@ -222,16 +223,15 @@ END
 								{
 									"title"=>"Votez au Jugement Majoritaire",
 									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/JM2017-foule900.jpg",
-									"subtitle"=>"Cliquez sur le bouton 'Je vote' pour évaluer pour les 11 candidat(e)s officiel(le)s",
+									"subtitle"=>"Cliquez sur 'Je vote' pour évaluer pour les 11 candidats officiels",
 									"buttons"=>[
 										{
 											"type"=>"web_url",
 											"title"=>"Je vote !",
-											"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
-											"webview_height_ratio"=>"tall",
-											"webview_share_button"=>"hide",
-											"messenger_extensions"=>true,
-											"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_voting"
+											"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting"
+											#"webview_height_ratio"=>"tall",
+											#"webview_share_button"=>"hide",
+											#"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_voting"
 										},
 										{
 											"type"=>"element_share"
@@ -246,6 +246,12 @@ END
 		}
 		Bot.updateScreens(screens)
 		Bot.updateMessages(messages)
+	end
+
+	def home_official_candidates_cb(msg,user,screen)
+		Bot.log.info "#{__method__}"
+		screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?fb_id=123456"
+		return self.get_screen(screen,user,msg)
 	end
 
 	def home_welcome_cb(msg,user,screen)
