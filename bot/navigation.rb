@@ -174,6 +174,19 @@ module Bot
 			user.state['current']   = "home/welcome"
 			_screen                 = self.find_by_name(user.state['current'], _locale)
 			_screen                 = self.get_screen(_screen,user,msg)
+			_answer           = _screen[:text].nil? ? "" : _screen[:text]
+			_current          = user.state['current']
+			_screen           = self.find_by_name(_current,_locale) if _screen[:id]!= _current and !_current.nil?
+			_jump_to          = _screen[:jump_to]
+			while !_jump_to.nil? do
+				_next_screen       = find_by_name(_jump_to,_locale)
+				_b                 = get_screen(_next_screen,user,msg)
+				_answer           += _b[:text] unless _b[:text].nil?
+				_screen.merge!(_b) unless _b.nil?
+				_screen[:text]     = _answer unless _answer.nil?
+				_jump_to           = _next_screen[:jump_to]
+			end
+			return _screen
 		end
 
 		def get_button_answer(msg,user)

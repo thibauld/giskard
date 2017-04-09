@@ -131,12 +131,10 @@ END
 		screens={
 			:home=>{
 				:welcome=>{
-					:answer=>"home/welcome_answer",
+					#:answer=>"home/welcome_answer",
 					:callback=>"home/welcome_cb",
-					:kbd=>[
-						{"text"=>"home/jm_no"},
-						{"text"=>"home/jm_yes"}
-					]
+					:jump_to=>"home/official_candidates"
+					#:kbd=>[ {"text"=>"home/jm_no"}, {"text"=>"home/jm_yes"} ]
 				},
 				:jm_yes=>{
 					:answer=>"home/jm_yes_answer",
@@ -224,17 +222,22 @@ END
 									"title"=>"Votez au Jugement Majoritaire",
 									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/JM2017-foule900.jpg",
 									"subtitle"=>"Cliquez sur 'Je vote' pour évaluer pour les 11 candidats officiels",
+									"default_action": {
+										"type": "web_url",
+										#"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
+										"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+										"messenger_extensions": true,
+										"webview_height_ratio": "full"
+									},
 									"buttons"=>[
 										{
 											"type"=>"web_url",
 											"title"=>"Je vote !",
-											"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting"
-											#"webview_height_ratio"=>"tall",
-											#"webview_share_button"=>"hide",
-											#"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_voting"
-										},
-										{
-											"type"=>"element_share"
+											#"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
+											"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+											"webview_height_ratio"=>"full",
+											"webview_share_button"=>"hide"
+
 										}
 									]      
 								}
@@ -250,7 +253,7 @@ END
 
 	def home_official_candidates_cb(msg,user,screen)
 		Bot.log.info "#{__method__}"
-		screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?fb_id=123456"
+		screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?fb_id="+user.id.to_s
 		return self.get_screen(screen,user,msg)
 	end
 
