@@ -28,8 +28,6 @@ Great, let's get back to it !
 END
 					:first_help=><<-END,
 Sorry I did not understand what you told me #{Bot.emoticons[:crying_face]}
-Please use the keyboard to communicate with me
-image:https://s3.eu-central-1.amazonaws.com/laprimaire/images/keyboard-button.png
 Click on the "Ok understood" button of the keyboard below to continue.
 END
 				}
@@ -41,9 +39,7 @@ END
 Parfait, reprenons !
 END
 					:first_help=><<-END,
-Désolé, je ne comprends pas ce que vous m'écrivez #{Bot.emoticons[:crying_face]}
-Merci d'utiliser le clavier pour communiquer avec moi
-image:https://s3.eu-central-1.amazonaws.com/laprimaire/images/keyboard-button.png
+Désolé, je ne comprends pas ce que vous m'écrivez #{Bot.emoticons[:crying_face]} Merci d'utiliser les boutons qui vous sont proposés pour échanger avec moi s'il vous plait.
 Cliquez sur le bouton "Ok bien compris" du clavier ci-dessous pour continuer.
 END
 				}
@@ -53,7 +49,8 @@ END
 			:help=>{
 				:first_help_ok=>{
 					:answer=>"help/first_help_ok_answer",
-					:callback=>"help/first_help_cb",
+					#:callback=>"help/first_help_cb",
+					:jump_to=>"home/welcome"
 				},
 				:first_help=>{
 					:callback=>"help/first_help_cb",
