@@ -144,7 +144,7 @@ module Bot
 		end
 
 		def get_api_answer(msg,user)
-			Bot.log.info "#{__method__} #{msg.text}"
+			Bot.log.debug "#{__method__} #{msg.text}"
 			_callback          = self.to_callback(user.state['callback'].to_s)
 			_locale            = self.get_locale(user)
 			_screen                 = self.find_by_name(msg.text, _locale)
@@ -169,7 +169,7 @@ module Bot
 		end
 
 		def get_reset(msg, user)
-			Bot.log.info "#{__method__} #{msg.text}"
+			Bot.log.debug "#{__method__} #{msg.text}"
 			_locale                 = self.get_locale(user)
 			user.state['current']   = "home/welcome"
 			_screen                 = self.find_by_name(user.state['current'], _locale)
@@ -190,7 +190,7 @@ module Bot
 		end
 
 		def get_button_answer(msg,user)
-			Bot.log.info "#{__method__} #{msg.text} #{user.state['callback']}"
+			Bot.log.debug "#{__method__} #{msg.text} #{user.state['callback']}"
 			_callback          = self.to_callback(user.state['callback'].to_s)
 			_locale            = self.get_locale(user)
 			_screen            = self.find_by_answer(msg.text,self.context(user.state['current']),_locale)
@@ -215,7 +215,7 @@ module Bot
 		end
 
 		def get_text_answer(msg, user)
-			Bot.log.info "#{__method__} #{msg.text}  #{user.state['callback']}"
+			Bot.log.debug "#{__method__} #{msg.text}  #{user.state['callback']}"
 			_callback                 	= self.to_callback(user.state['callback'].to_s)
 			_locale                   	= self.get_locale(user)
 			user.state['expected_size'] -= 1 # how many lines of answer do we expect?
@@ -243,7 +243,7 @@ module Bot
 
 		# the message is not understood
 		def dont_understand(msg,user)
-			Bot.log.info "#{__method__} #{msg.text}"
+			Bot.log.debug "#{__method__} #{msg.text}"
 			locale        = self.get_locale(user)
 			first_help    = user.settings['actions']['first_help_given']
 			if not first_help then
@@ -260,7 +260,7 @@ module Bot
 		end
 
 		def get_screen(screen,user,msg)
-			Bot.log.info "#{__method__} #{screen[:id]}"
+			Bot.log.debug "#{__method__} #{screen[:id]}"
 			return nil,nil if screen.nil?
 			callback=self.to_callback(screen[:callback].to_s) unless screen[:callback].nil?
 			previous=caller_locations(1,1)[0].label
@@ -278,7 +278,7 @@ module Bot
 		end
 
 		def find_by_name(name,locale='en')
-			Bot.log.info "#{__method__} #{name}"
+			Bot.log.debug "#{__method__} #{name}"
 			n1,n2=self.nodes(name)
 			begin
 				screen=@screens[n1][n2]
@@ -295,7 +295,7 @@ module Bot
 		end
 
 		def find_by_answer(answer,ctx=nil,locale='en')
-			Bot.log.info "#{__method__} #{answer} context: #{ctx}"
+			Bot.log.debug "#{__method__} #{answer} context: #{ctx}"
 			tmp=@answers[locale][answer]
 			return nil if tmp.nil?
 			if tmp.length==1
@@ -315,7 +315,7 @@ module Bot
 		end
 
 		def format_answer(screen,user)
-			Bot.log.info "#{__method__}: #{screen[:id]}"
+			Bot.log.debug "#{__method__}: #{screen[:id]}"
 			screen[:text]=screen[:text] % {
 				firstname:  user.first_name,
 				lastname:   user.last_name,

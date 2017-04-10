@@ -22,6 +22,8 @@ module Home
 		messages={
 			:en=>{
 				:home=>{
+					:try_again_answer=>"Réessayer",
+					:vote_paused=>"Désolé le vote est temporairement suspendu. Reessayez dans quelques minutes, merci de votre compréhension !",
 					:welcome_answer=>"/start",
 					:welcome=><<-END,
 Hello !
@@ -56,6 +58,8 @@ END
 			},
 			:fr=>{
 				:home=>{
+					:try_again_answer=>"Réessayer",
+					:vote_paused=>"Désolé les votes sont temporairement suspendus #{Bot.emoticons[:disappointed]} Reessayez dans quelques minutes, merci de votre compréhension !",
 					:welcome_answer=>"/start",
 					:welcome=><<-END,
 Bonjour #{Bot.emoticons[:smile]}
@@ -104,6 +108,13 @@ END
 		}
 		screens={
 			:home=>{
+				:try_again=>{
+					:answer=>"home/try_again_answer",
+					:jump_to=>"home/official_candidates",
+				},
+				:vote_paused=>{
+					:kbd=>[{"text"=>"home/try_again"}]
+				},
 				:welcome=>{
 					:callback=>"home/welcome_cb",
 					#:jump_to=>"home/share"
@@ -111,6 +122,7 @@ END
 				},
 				:jm_yes=>{
 					:answer=>"home/jm_yes_answer",
+					:callback=>"home/jm_yes_cb",
 					:jump_to=>"home/official_candidates"
 				},
 				:jm_no=>{
@@ -135,21 +147,21 @@ END
 									"subtitle"=>"Cliquez sur 'Je vote' pour évaluer pour les 11 candidat(e)s officiels.",
 									"default_action": {
 										"type": "web_url",
-										"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
-										#"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+										"url"=>"https://laprimaire.org/citoyen/vote/facebook_11",
+										#"url"=>"http://localhost:9293/citoyen/vote/facebook_11",
 										"messenger_extensions": true,
 										"webview_height_ratio": "full",
-										"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_voting"
+										#"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_11"
+										"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_11"
 									},
 									"buttons"=>[
 										{
 											"type"=>"web_url",
 											"title"=>"Je vote !",
-											#"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
-											"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+											"url"=>"https://laprimaire.org/citoyen/vote/facebook_11",
+											#"url"=>"http://localhost:9293/citoyen/vote/facebook_11",
 											"webview_height_ratio"=>"full",
 											"webview_share_button"=>"hide"
-
 										}
 									]      
 								},
@@ -159,21 +171,21 @@ END
 									"subtitle"=>"Cliquez sur 'Je vote' pour évaluer pour 4 candidat(e)s finalistes des primaires.",
 									"default_action": {
 										"type": "web_url",
-										"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
-										#"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+										"url"=>"https://laprimaire.org/citoyen/vote/facebook_4",
+										#"url"=>"http://localhost:9293/citoyen/vote/facebook_4",
 										"messenger_extensions": true,
 										"webview_height_ratio": "full",
-										"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_voting"
+										#"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_4"
+										"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_4"
 									},
 									"buttons"=>[
 										{
 											"type"=>"web_url",
 											"title"=>"Je vote !",
-											#"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
-											"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+											"url"=>"https://laprimaire.org/citoyen/vote/facebook_4",
+											#"url"=>"http://localhost:9293/citoyen/vote/facebook_4",
 											"webview_height_ratio"=>"full",
 											"webview_share_button"=>"hide"
-
 										}
 									]      
 								}
@@ -260,36 +272,60 @@ END
 		Bot.updateMessages(messages)
 	end
 
+	def home_jm_yes_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		if VOTE_PAUSED then
+			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
+			return self.get_screen(screen,user,msg)
+		end
+		return self.get_screen(screen,user,msg)
+	end
+
 	def home_official_candidates_cb(msg,user,screen)
-		Bot.log.info "#{__method__}"
-		token={
+		Bot.log.debug "#{__method__}"
+		if VOTE_PAUSED then
+			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
+			return self.get_screen(screen,user,msg)
+		end
+		token_11={
 			:iss=> CC_APP_ID_FB,
 			:sub=> Digest::SHA256.hexdigest(user.id.to_s+'@facebook.com'),
 			:email=> user.id.to_s+'@facebook.com',
 			:lastName=> user.last_name,
 			:firstName=> user.first_name,
-			:authorizedVotes=> [FB_VOTE_ID],
+			:authorizedVotes=> [FB_VOTE_ID_11],
 			:exp=>(Time.new.getutc+VOTING_TIME_ALLOWED).to_i
 		}
-		vote_token=JWT.encode token, CC_SECRET_FB, 'HS256'
-		screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?token="+vote_token
+		vote_token_11=JWT.encode token_11, CC_SECRET_FB, 'HS256'
+		token_4={
+			:iss=> CC_APP_ID_FB,
+			:sub=> Digest::SHA256.hexdigest(user.id.to_s+'@facebook.com'),
+			:email=> user.id.to_s+'@facebook.com',
+			:lastName=> user.last_name,
+			:firstName=> user.first_name,
+			:authorizedVotes=> [FB_VOTE_ID_4],
+			:exp=>(Time.new.getutc+VOTING_TIME_ALLOWED).to_i
+		}
+		vote_token_4=JWT.encode token_4, CC_SECRET_FB, 'HS256'
+		screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?token="+vote_token_11
+		screen[:attachment]["payload"]["elements"][1]["buttons"][0]["url"]+="?token="+vote_token_4
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_welcome_cb(msg,user,screen)
-		Bot.log.info "#{__method__}"
+		Bot.log.debug "#{__method__}"
 		user.set('rates',{})
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_rate_candidate_cb(msg,user,screen)
-		Bot.log.info "#{__method__}"
+		Bot.log.debug "#{__method__}"
 		user.set('rated_candidate',screen[:id].split('/')[1])
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_save_rating_cb(msg,user,screen)
-		Bot.log.info "#{__method__}"
+		Bot.log.debug "#{__method__}"
 		candidate=user.get('rated_candidate')
 		rates=user.get('rates').nil? ? {} : user.get('rates')
 		user.set('rates',rates.merge({candidate=>screen[:id]}))
@@ -299,28 +335,9 @@ END
 	end
 
 	def home_menu(msg,user,screen)
-		Bot.log.info "#{__method__}"
+		Bot.log.debug "#{__method__}"
 		screen[:kbd_del]=["home/menu"] #comment if you want the home button to be displayed on the home menu
 		user.next_answer('answer')
-		return self.get_screen(screen,user,msg)
-	end
-
-	def home_ask_email(msg,user,screen)
-		Bot.log.info "#{__method__}"
-		user.next_answer('free_text',1,"home/save_email_cb")
-		return self.get_screen(screen,user,msg)
-	end
-
-	def home_save_email_cb(msg,user,screen)
-		email=user.state['buffer']
-		Bot.log.info "#{__method__}: #{email}"
-		if email.match(/\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/).nil? then
-			screen=self.find_by_name("home/email_wrong",self.get_locale(user))
-			screen[:text]=screen[:text] % {:email=>email}
-			return self.get_screen(screen,user,msg)
-		end
-		screen=self.find_by_name("home/email_saved",self.get_locale(user))
-		screen[:text]=screen[:text] % {:email=>email}
 		return self.get_screen(screen,user,msg)
 	end
 end

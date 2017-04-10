@@ -18,7 +18,7 @@
 
 module Help
 	def self.included(base)
-		Bot.log.info "loading Help add-on"
+		Bot.log.debug "loading Help add-on"
 		messages={
 			:en=>{
 				:help=>{
@@ -67,7 +67,7 @@ END
 	end
 
 	def help_first_help_cb(msg,user,screen)
-		Bot.log.info "help_first_help_cb"
+		Bot.log.debug "#{__method__}"
 		locale=self.get_locale(user)
 		if screen[:save_session] then
 			user.next_answer('answer')
