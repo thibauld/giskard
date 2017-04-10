@@ -22,23 +22,22 @@ module Api
 		messages={
 			:en=>{
 				:api=>{
-					:vote_completed=><<-END,
-Bravo !
-END
+					:vote_completed=>"Le vote s'est-il correctement déroulé ?"
 				}
 			},
 			:fr=>{
 				:api=>{
-					:vote_completed=><<-END,
-Bravo !
-END
+					:vote_completed=>"Le vote s'est-il correctement déroulé ?"
 				}
 			}
 		}
 		screens={
 			:api=>{
 				:vote_completed=>{
-					:jump_to=>"home/validate_yes"
+					:kbd=>[
+						{"text"=>"home/vote_ok","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/bien.png"},
+						{"text"=>"home/vote_ko","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/insuffisant.png"}
+					]
 				}
 			}
 		}

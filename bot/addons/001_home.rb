@@ -38,177 +38,88 @@ END
 Sure thing !
 The majority judgement is [blabla...]
 END
-					:vote_completed=><<-END,
-Bravo ! Vous avez voté pour tous les candidats. Souhaitez-vous valider votre vote ou bien modifier certains de vos choix ?
+					:understood_answer=>"Continuer",
+					:understood=><<-END,
+Top #{Bot.emoticons[:thumbs_up]}
+Passons au vote alors !
 END
-					:validate_yes_answer=>"Je valide mes choix",
-					:validate_yes=><<-END,
-Merci beaucoup pour votre participation !
-END
-					:validate_no_answer=>"Modifier mes choix",
-					:validate_no=><<-END,
-Pas de souci, on a tout notre temps :)
-END
-					:official_candidates_to_del=><<-END,
-You have %{nb_left} candidates left to judge:
-END
-					:tres_bien_answer=>"Very good",
-					:bien_answer=>"Good",
-					:assez_bien_answer=>"Rather good",
-					:passable_answer=>"Mediocre",
-					:insuffisant_answer=>"Insufficient",
-					:a_rejeter_answer=>"Rejected",
-					:understood=>"Ok understood\n",
-					:francois_fillon_answer=>"F. Fillon",
-					:francois_fillon=>"How would you rate François Fillon ?",
-					:nicolas_dupont_aignan_answer=>"N. Dupont-Aignan",
-					:nicolas_dupont_aignan=>"How would you rate Nicolas Dupont-Aignan ?",
-					:nathalie_arthaud_answer=>"N. Arthaud",
-					:nathalie_arthaud=><<END,
-image:https://s3.eu-central-1.amazonaws.com/laprimaire/candidats/nathalie-arthaud.jpg
-Pour présider la France, ayant pris tous les éléments en compte, je juge en conscience que Nathalie Arthaud serait:
-END
+					:vote_ok_answer=>"Oui",
+					:vote_ok=>"Content de voir que tout s'est bien passé !\n",
+					:vote_ko_answer=>"Non j'ai eu un souci",
+					:vote_ko=>"Désolé que le vote ne se soit pas bien passé, pouvez-vous nous contacter pour nous dire ce qu'il s'est passé ?\n",
+					:question_jm=>"Est-ce que c'était facile de voter ?",
+					:question_jm_yes_answer=>"Facile",
+					:question_jm_yes=>"Très bonne nouvelle, cette expérimentation est désormais terminée, merci beaucoup pour votre participation.\nN'hésitez pas à partager cette expérimentation à vos amis pour leur faire découvrir le jugement majoritaire.\nEnfin, pour utiliser le jugement majoritaire dans la vraie vie, sachez que LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.",
+					:question_jm_no_answer=>"Difficile",
+					:question_jm_no=>"Merci pour votre opinion, cette expérimentation est désormais terminée, merci beaucoup pour votre participation !\nN'hésitez pas à partager cette expérimentation à vos amis pour leur faire découvrir le jugement majoritaire.\nEnfin, pour utiliser le jugement majoritaire dans la vraie vie, sachez que LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.",
 				}
 			},
 			:fr=>{
 				:home=>{
 					:welcome_answer=>"/start",
 					:welcome=><<-END,
-Bonjour !
-Merci de votre participation à cette expérimentation scientifique. Sachez que votre vote est anonyme et que vos données personnelles ne sont pas enregistrées.
-En introduction, connaissez-vous déjà le jugement majoritaire ?
+Bonjour #{Bot.emoticons[:smile]}
+Merci de votre participation à cette expérimentation scientifique.
+Sachez que votre vote est anonyme et que vos données personnelles ne sont pas enregistrées.
+Pour commencer, connaissez-vous le jugement majoritaire ?
 END
-					:jm_yes_answer=>"Oui je connais déjà",
+					:jm_yes_answer=>"Oui je connais",
 					:jm_yes=><<-END,
-Parfait, nous pouvons donc dès à présent procéder au vote !
+Parfait #{Bot.emoticons[:thumbs_up]}
+A présent, passons au vote !
+Nous avons créé 2 votes : le 1er avec les 11 candidat(e)s officiels et le 2nd avec les 4 candidat(e)s finalistes des différentes primaires :
 END
 					:jm_no_answer=>"Non, dites m'en plus",
 					:jm_no=><<-END,
 Avec plaisir !
-Le jugement majoritaire c'est [blabla...]
+Plus d'informations sur le jugement majoritaire sont disponibles sur https://www.jugementmajoritaire2017.com
 END
-					:vote_completed=><<-END,
-Bravo ! Vous avez voté pour tous les candidats. Souhaitez-vous valider votre vote ou bien modifier certains de vos choix ?
+					:understood_answer=>"Continuer",
+					:understood=><<-END,
+Ok, passons au vote à présent !
 END
-					:validate_yes_answer=>"Je valide",
-					:validate_yes=><<-END,
-Merci beaucoup pour votre participation !
+					:vote_ok_answer=>"Oui",
+					:vote_ok=>"Content de voir que tout s'est bien passé !\n",
+					:vote_ko_answer=>"Non j'ai eu un souci",
+					:vote_ko=>"Désolé que le vote ne se soit pas bien passé, pouvez-vous nous laisser un message sur https://laprimaire.org/contact/ pour nous dire ce qu'il s'est passé ? Cela nous serait très utile !\n",
+					:question_jm=><<-END,
+Trouvez-vous que la manière dont vous venez de voter (en jugeant chacun des candidats) exprime mieux ou moins bien votre opinion, en comparaison avec le « système officiel » (où vous choisissez un seul candidat) ?
 END
-					:validate_no_answer=>"Je modifie",
-					:validate_no=><<-END,
-Pas de souci, on a tout notre temps :)
+					:question_jm_yes_answer=>"Mieux",
+					:question_jm_yes=><<-END,
+Merci pour votre opinion !
+Cette expérimentation est désormais terminée, merci pour votre participation !
+A présent n'hésitez pas à partager cette expérimentation à vos proches et amis car nous avons besoin de beaucoup de participants.
+Sachez enfin que, si vous voulez utiliser le jugement majoritaire, LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.
 END
-
-					:official_candidates_to_del=><<-END,
-Il vous reste encore %{nb_left} candidat(e)s à évaluer :
+					:question_jm_no_answer=>"Moins bien",
+					:question_jm_no=><<-END,
+Merci pour votre opinion !
+Cette expérimentation est désormais terminée, merci pour votre participation !
+Partagez cette expérimentation à vos proches et amis car nous avons besoin de beaucoup de participants.
+Sachez enfin que, si vous voulez utiliser le jugement majoritaire, LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.
 END
-					:tres_bien_answer=>"Très bien",
-					:bien_answer=>"Bien",
-					:assez_bien_answer=>"Assez bien",
-					:passable_answer=>"Passable",
-					:insuffisant_answer=>"Insuffisant",
-					:a_rejeter_answer=>"A rejeter",
-					:understood=>"Ok bien noté\n",
-					:francois_fillon_answer=>"F. Fillon",
-					:francois_fillon=><<END,
-image:https://s3.eu-central-1.amazonaws.com/laprimaire/candidats/francois-fillon.jpg
-Pour présider la France, ayant pris tous les éléments en compte, je juge en conscience que François Fillon serait:
-END
-					:nicolas_dupont_aignan_answer=>"N. Dupont-Aignan",
-					:nicolas_dupont_aignan=><<END,
-image:https://s3.eu-central-1.amazonaws.com/laprimaire/candidats/nicolas-dupont-aignan.jpg
-Pour présider la France, ayant pris tous les éléments en compte, je juge en conscience que Nicolas Dupont-Aignan serait:
-END
-					:nathalie_arthaud_answer=>"N. Arthaud",
-					:nathalie_arthaud=><<END,
-image:https://s3.eu-central-1.amazonaws.com/laprimaire/candidats/nathalie-arthaud.jpg
-Pour présider la France, ayant pris tous les éléments en compte, je juge en conscience que Nathalie Arthaud serait:
-END
-
 				}
 			}
 		}
 		screens={
 			:home=>{
 				:welcome=>{
-					#:answer=>"home/welcome_answer",
 					:callback=>"home/welcome_cb",
-					:jump_to=>"home/official_candidates"
-					#:kbd=>[ {"text"=>"home/jm_no"}, {"text"=>"home/jm_yes"} ]
+					#:jump_to=>"home/share"
+					:kbd=>[ {"text"=>"home/jm_no"}, {"text"=>"home/jm_yes"} ]
 				},
 				:jm_yes=>{
 					:answer=>"home/jm_yes_answer",
 					:jump_to=>"home/official_candidates"
-					#:jump_to=>"home/validate_yes"
 				},
 				:jm_no=>{
 					:answer=>"home/jm_no_answer",
-					:jump_to=>"home/official_candidates"
-				},
-				:vote_completed=>{
-					:kbd=>[
-						{"text"=>"home/validate_yes"},
-						{"text"=>"home/validate_no"}
-					]
-				},
-				:validate_yes=>{
-					:answer=>"home/validate_yes_answer",
-					:attachment=>{
-						"type":"template",
-						"payload"=>{
-							"template_type"=>"generic",
-							"elements"=>[
-								{
-									"title"=>"Faites voter vos amis",
-									"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/merci.png",
-									"subtitle"=>"Merci d'avoir participé ! Partagez à vos amis !",
-									"buttons"=>[
-										{
-											"type"=>"element_share",
-											"share_contents"=>{
-												"attachment"=>{
-													"type"=>"template",
-													"payload"=>{
-														"template_type"=>"generic",
-														"elements" => [
-															"title"=>"Votez au Jugement Majoritaire pour la Présidentielle",
-															"subtitle"=>"Une expérimentation scientifique menée par le CNRS, Dauphine et Polytechnique",
-															"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/merci.png",
-															"buttons"=>[
-																{
-																	"type"=>"web_url",
-																	"url"=>"https://m.me/JugementMajoritairePresidentielle2017",
-																	"title"=>"Participer"
-																}
-															]
-														]
-													}
-												}
-											}
-										}
-									]      
-								},
-								{
-									"title"=>"Utilisez le Jugement Majoritaire pour les législatives",
-									"image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/logos/logo_laprimaire_200x75.jpg",
-									"subtitle"=>"Choisissez vos candidats pour les législatives !",
-									"buttons"=>[
-										{
-											"type"=>"web_url",
-											"title"=>"Voter aux législatives",
-											"url"=>"https://laprimaire.org"
-										}              
-									]      
-								}
-							]
-						}
-					}
-				},
-				:validate_no=>{
-					:answer=>"home/validate_no_answer",
-					:jump_to=>"home/official_candidates"
+					#:jump_to=>"home/official_candidates"
+					:kbd=>[{"text"=>"home/understood"}]
 				},
 				:understood=>{
+					:answer=>"home/understood_answer",
 					:jump_to=>"home/official_candidates"
 				},
 				:official_candidates=>{
@@ -219,15 +130,40 @@ END
 							"template_type"=>"generic",
 							"elements"=>[
 								{
-									"title"=>"Votez au Jugement Majoritaire",
+									"title"=>"Les 11 candidat(e)s officiels",
 									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/JM2017-foule900.jpg",
-									"subtitle"=>"Cliquez sur 'Je vote' pour évaluer pour les 11 candidats officiels",
+									"subtitle"=>"Cliquez sur 'Je vote' pour évaluer pour les 11 candidat(e)s officiels.",
 									"default_action": {
 										"type": "web_url",
-										#"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
-										"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+										"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
+										#"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
 										"messenger_extensions": true,
-										"webview_height_ratio": "full"
+										"webview_height_ratio": "full",
+										"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_voting"
+									},
+									"buttons"=>[
+										{
+											"type"=>"web_url",
+											"title"=>"Je vote !",
+											#"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
+											"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+											"webview_height_ratio"=>"full",
+											"webview_share_button"=>"hide"
+
+										}
+									]      
+								},
+								{
+									"title"=>"Les 4 candidat(e)s finalistes des primaires",
+									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/JM2017-foule900.jpg",
+									"subtitle"=>"Cliquez sur 'Je vote' pour évaluer pour 4 candidat(e)s finalistes des primaires.",
+									"default_action": {
+										"type": "web_url",
+										"url"=>"https://laprimaire.org/citoyen/vote/facebook_voting",
+										#"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+										"messenger_extensions": true,
+										"webview_height_ratio": "full",
+										"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_voting"
 									},
 									"buttons"=>[
 										{
@@ -244,7 +180,80 @@ END
 							]
 						}
 					}
-				}
+				},
+				:vote_ok=>{
+					:answer=>"home/vote_ok_answer",
+					:jump_to=>"home/question_jm"
+				},
+				:vote_ko=>{
+					:answer=>"home/vote_ko_answer",
+					:jump_to=>"home/question_jm"
+				},
+				:question_jm=>{
+					:kbd=>[
+						{"text"=>"home/question_jm_yes"},
+						{"text"=>"home/question_jm_no"}
+					]
+				},
+				:question_jm_yes=>{
+					:answer=>"home/question_jm_yes_answer",
+					:jump_to=>"home/share"
+				},
+				:question_jm_no=>{
+					:answer=>"home/question_jm_no_answer",
+					:jump_to=>"home/share"
+				},
+				:share=>{
+					:attachment=>{
+						"type":"template",
+						"payload"=>{
+							"template_type"=>"generic",
+							#"image_aspect_ratio"=>"square",
+							"elements"=>[
+								{
+									"title"=>"Découvrez le Jugement Majoritaire",
+									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/share-jm-img-logo1.jpg",
+									#"subtitle"=>"Exprimez-vous sur les candidat(s) à la présidentielle grâce au jugement majoritaire.",
+									"subtitle"=>"Une expérience scientifique pour faire progresser la science du vote.",
+									"default_action": {
+										"type": "web_url",
+										"url"=>"https://m.me/JugementMajoritairePresidentielle2017",
+										#"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+									},
+									"buttons"=>[
+										{
+										"type": "web_url",
+										"title": "Participer",
+										"url"=>"https://m.me/JugementMajoritairePresidentielle2017",
+										},
+										{
+											"type"=>"element_share"
+										}
+									]      
+								},
+								{
+									"title"=>"Utilisez le Jugement Majoritaire sur LaPrimaire.org",
+									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/share-legislatives-img2.jpg",
+									"subtitle"=>"Choisissez vos candidats pour les législatives.",
+									"default_action": {
+										"type": "web_url",
+										"url"=>"https://legislatives.laprimaire.org"
+									},
+									"buttons"=>[
+										{
+											"type"=>"web_url",
+											"title"=>"Participer",
+											"url"=>"https://legislatives.laprimaire.org"
+										},
+										{
+											"type"=>"element_share"
+										}
+									]      
+								}
+							]
+						}
+					}
+				},
 			}
 		}
 		Bot.updateScreens(screens)
@@ -253,33 +262,23 @@ END
 
 	def home_official_candidates_cb(msg,user,screen)
 		Bot.log.info "#{__method__}"
-		screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?fb_id="+user.id.to_s
+		token={
+			:iss=> CC_APP_ID_FB,
+			:sub=> Digest::SHA256.hexdigest(user.id.to_s+'@facebook.com'),
+			:email=> user.id.to_s+'@facebook.com',
+			:lastName=> user.last_name,
+			:firstName=> user.first_name,
+			:authorizedVotes=> [FB_VOTE_ID],
+			:exp=>(Time.new.getutc+VOTING_TIME_ALLOWED).to_i
+		}
+		vote_token=JWT.encode token, CC_SECRET_FB, 'HS256'
+		screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?token="+vote_token
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_welcome_cb(msg,user,screen)
 		Bot.log.info "#{__method__}"
 		user.set('rates',{})
-		return self.get_screen(screen,user,msg)
-	end
-
-	def home_display_candidates_cb(msg,user,screen)
-		Bot.log.info "#{__method__}"
-		rates=user.get('rates').nil? ? {} : user.get('rates')
-		nb_left=3-rates.length
-		if (nb_left==0) then
-			screen=self.find_by_name("home/vote_completed",self.get_locale(user))
-			return self.get_screen(screen,user,msg)
-		end
-		screen[:text]=screen[:text] % { nb_left: nb_left}
-		screen[:kbd].each_with_index do |c,i|
-			rates.each do |k,v|
-				if (c["payload"].split('/')[1]==k) then
-					mention=v.split('/')[1]
-					screen[:kbd][i]["image_url"]=IMG_PATH+"#{mention}.png"
-				end
-			end
-		end
 		return self.get_screen(screen,user,msg)
 	end
 

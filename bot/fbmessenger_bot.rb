@@ -26,13 +26,17 @@ module Giskard
 		def self.send(payload,type="messages",file_url=nil)
 			Bot.log.debug "sending payload via #{type} :"
 			Bot.log.debug payload
-			if file_url.nil? then
-				res = RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}", payload.to_json, :content_type => :json
-			else # image upload 
-				params={"recipient"=>payload['recipient'], "message"=>payload['message'], "filedata"=>File.new(file_url,'rb'),"multipart"=>true}
-				res = RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}",params
+			begin
+				if file_url.nil? then
+					res = RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}", payload.to_json, :content_type => :json
+				else # image upload 
+					params={"recipient"=>payload['recipient'], "message"=>payload['message'], "filedata"=>File.new(file_url,'rb'),"multipart"=>true}
+					res = RestClient.post "https://graph.facebook.com/v2.6/me/#{type}?access_token=#{FB_PAGEACCTOKEN}",params
+				end
+				Bot.log.debug "sending done (code: #{res.code})"
+			rescue RestClient::BadRequest=>e
+				Bot.log.error "BAD Request : #{e}"
 			end
-			Bot.log.debug "sending done (code: #{res.code})"
 		end
 
 		def self.init() 
@@ -67,7 +71,9 @@ module Giskard
 						msg["message"]["quick_replies"].push(qr)
 					end
 				elsif not attachment.nil? then
-					msg["message"]={ "attachment"=>attachment }
+					msg["message"]={
+						"attachment"=>attachment
+					}
 				else
 					msg["message"]={ "text"=>text }
 				end
@@ -95,7 +101,7 @@ module Giskard
 				idx=0
 				image=false
 				kbd=nil 
-				attachment=nil 
+				attachment=nil
 				lines.each do |l|
 					next if l.empty?
 					idx+=1
@@ -118,11 +124,12 @@ module Giskard
 						if l.start_with?("no_preview:") then
 							l=l.split(':',2)[1]
 						end
-						if (idx==max)
-							kbd=options[:kbd]
+						if (idx==max) then
+							kbd=options[:kbd] 
 							attachment=options[:attachment]
 						end
-						send_msg(id,l,kbd,attachment)
+						send_msg(id,l,kbd,nil)
+						send_msg(id,nil,nil,attachment) unless attachment.nil?
 					end
 				end
 			end
@@ -170,12 +177,14 @@ module Giskard
 				end   
 			elsif object=='api' then # api call / not from messenger
 				cmd=params['cmd']
-				uid=params['uid']
+				token=params['token']
 				return if cmd.nil? or cmd.empty?
-				return if uid.nil? or uid.empty?
+				return if token.nil? or token.empty?
+				decoded_token=JWT.decode token, CC_SECRET_FB, true, {:algorithm=> 'HS256'}
+				data=decoded_token[0]
 				msg = Giskard::FB::Message.new(nil,cmd,-1,FB_BOT_NAME)
 				user     = Bot::User.new()
-				user.id  = uid
+				user.id  = data["email"].split('@')[0].to_i
 				screen = Bot.nav.get(msg, user)
 				process_msg(user.id,screen[:text],screen) unless screen[:text].nil?
 			end
