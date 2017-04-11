@@ -71,7 +71,7 @@ END
 					:jm_yes=><<-END,
 Parfait #{Bot.emoticons[:thumbs_up]}
 A présent, passons au vote !
-Nous avons créé 2 votes : le 1er avec les 11 candidat(e)s officiels et le 2nd avec les 4 candidat(e)s finalistes des différentes primaires :
+Nous avons créé 2 votes : le 1er avec les 11 candidats officiels et le 2nd avec 4 candidats, vainqueurs ou finalistes des différentes primaires :
 END
 					:jm_no_answer=>"Non, dites m'en plus",
 					:jm_no=><<-END,
@@ -307,9 +307,12 @@ END
 			:exp=>(Time.new.getutc+VOTING_TIME_ALLOWED).to_i
 		}
 		vote_token_4=JWT.encode token_4, CC_SECRET_FB, 'HS256'
-		screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?token="+vote_token_11
-		screen[:attachment]["payload"]["elements"][1]["buttons"][0]["url"]+="?token="+vote_token_4
-		return self.get_screen(screen,user,msg)
+		local_screen= DeepClone.clone screen
+		local_screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?token="+vote_token_11
+		local_screen[:attachment]["payload"]["elements"][0]["default_action"]["url"]+="?token="+vote_token_11
+		local_screen[:attachment]["payload"]["elements"][1]["buttons"][0]["url"]+="?token="+vote_token_4
+		local_screen[:attachment]["payload"]["elements"][1]["default_action"]["url"]+="?token="+vote_token_4
+		return self.get_screen(local_screen,user,msg)
 	end
 
 	def home_welcome_cb(msg,user,screen)

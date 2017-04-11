@@ -41,7 +41,7 @@ module Giskard
 
 		def self.init() 
 			payload={ "greeting"=>[
-				{ "locale":"default","text"=>"Bonjour {{user_first_name}}, merci pour votre intérêt pour le jugement majoritaire !" }
+				{ "locale":"default","text"=>"Bonjour {{user_first_name}}, merci pour votre intérêt pour le jugement majoritaire ! Cliquez sur Démarrer (en bas de page) pour commencer l'expérimentation." }
 			]}
 			Giskard::FBMessengerBot.send(payload,"messenger_profile")
 		end
