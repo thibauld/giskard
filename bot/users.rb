@@ -24,7 +24,7 @@ module Bot
 		def self.load_queries
 			queries={
 				'find_user_by_id'=>'SELECT * FROM fb_users WHERE id=$1',
-				'insert_user'=>'INSERT INTO fb_users (id,firstname,lastname,profile) VALUES ($1,$2,$3,$4) RETURNING *',
+				'insert_user'=>'INSERT INTO fb_users (id,firstname,lastname) VALUES ($1,$2,$3) RETURNING *',
 				'update_user_profile'=>'UPDATE fb_users SET profile=profile || $2::jsonb WHERE id=$1 RETURNING *',
 				'count_users'=>'SELECT COUNT(*) FROM fb_users'
 			}
@@ -39,7 +39,7 @@ module Bot
 			## WARNING ## 
 			# This is for example purpose only and will work with only 1 unicorn process.
 			# If you use more than 1 unicorn process, you should save users in shared memory or a database to ensure data consistency between unicorn processes.
-			return Bot::Db.query('insert_user',[user.sig,user.first_name,user.last_name,user.profile])
+			return Bot::Db.query('insert_user',[user.sig,user.first_name,user.last_name])
 		end
 
 		# given a User instance with a Bot name and an ID, we look into the database to load missing informations, or to create it in the database
@@ -87,5 +87,9 @@ module Bot
 			return res.num_tuples==0 ? nil : res[0]
 		end
 
+		def update_profile(sig,profile)
+			res=Bot::Db.query('update_user_profile',[sig,profile])
+			return res.num_tuples==0 ? nil : res[0]
+		end
 	end
 end

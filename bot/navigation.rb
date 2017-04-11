@@ -103,7 +103,6 @@ module Bot
 			Bot.log.debug "Read message from user #{user.id} to bot #{msg.bot} with seq #{msg.seq}: #{msg.text}"
 
 			# load user if registered
-			Bot.log.debug "USER #{user.inspect}"
 			user = @users.open_user_session(user)
 			_input       = user.state['expected_input']
 			_callback    = self.to_callback(user.state['callback'].to_s)

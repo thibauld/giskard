@@ -129,6 +129,7 @@ END
 				:jm_no=>{
 					:answer=>"home/jm_no_answer",
 					#:jump_to=>"home/official_candidates"
+					:callback=>"home/jm_no_cb",
 					:kbd=>[{"text"=>"home/understood"}]
 				},
 				:understood=>{
@@ -196,10 +197,12 @@ END
 				},
 				:vote_ok=>{
 					:answer=>"home/vote_ok_answer",
+					:callback=>"home/vote_ok_cb",
 					:jump_to=>"home/question_jm"
 				},
 				:vote_ko=>{
 					:answer=>"home/vote_ko_answer",
+					:callback=>"home/vote_ko_cb",
 					:jump_to=>"home/question_jm"
 				},
 				:question_jm=>{
@@ -210,10 +213,12 @@ END
 				},
 				:question_jm_yes=>{
 					:answer=>"home/question_jm_yes_answer",
+					:callback=>"home/question_jm_yes_cb",
 					:jump_to=>"home/share"
 				},
 				:question_jm_no=>{
 					:answer=>"home/question_jm_no_answer",
+					:callback=>"home/question_jm_no_cb",
 					:jump_to=>"home/share"
 				},
 				:share=>{
@@ -279,6 +284,41 @@ END
 			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
 			return self.get_screen(screen,user,msg)
 		end
+		@users.update_profile(user.sig,'{"connait_JM":1}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_jm_no_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		if VOTE_PAUSED then
+			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
+			return self.get_screen(screen,user,msg)
+		end
+		@users.update_profile(user.sig,'{"connait_JM":0}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_question_jm_yes_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"mieux_que_SM":1}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_question_jm_no_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"mieux_que_SM":0}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_vote_ok_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"vote_OK":1}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_vote_ko_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"vote_OK":0}');
 		return self.get_screen(screen,user,msg)
 	end
 
