@@ -48,7 +48,7 @@ module Bot
 				:by=>"user_id",
 				:target=> user.id
 			})
-			if res.nil? then # new user
+			if (res.nil? && user.id.to_i>0) then # new user
 				case user.bot #FIXME: this should be inside bot
 				when TG_BOT_NAME then
 					Bot.log.debug("Nouveau participant : #{user.first_name} #{user.last_name} (<https://telegram.me/#{user.username}|@#{user.username}>)")
@@ -58,12 +58,12 @@ module Bot
 					r_user           = JSON.parse(JSON.dump(r_user), object_class: OpenStruct)
 					user.first_name  = r_user.first_name
 					user.last_name   = r_user.last_name
-					user.sig=Digest::SHA256.hexdigest(user.id)
+					user.sig=Digest::SHA256.hexdigest(user.id) if user.id.to_i>0
 					Bot.log.debug("Nouveau participant : #{user.first_name} #{user.last_name}")
 				end
 				self.add(user)
-			else
-				user.sig=Digest::SHA256.hexdigest(user.id)
+			elsif (!res.nil? && user.id.to_i>0) then
+				user.sig=Digest::SHA256.hexdigest(user.id.to_s) if user.id.to_i>0
 				user.first_name = res['firstname']
 				user.last_name = res['lastname']
 				user.profile = res['settings']
@@ -82,8 +82,8 @@ module Bot
 		end
 
 		def search(query)
-			id=Digest::SHA256.hexdigest(query[:target])
-			res=Bot::Db.query('find_user_by_id',[id])
+			sig=Digest::SHA256.hexdigest(query[:target].to_s) if query[:target].to_i>0
+			res=Bot::Db.query('find_user_by_id',[sig])
 			return res.num_tuples==0 ? nil : res[0]
 		end
 

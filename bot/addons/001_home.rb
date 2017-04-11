@@ -81,6 +81,7 @@ END
 					:understood_answer=>"Continuer",
 					:understood=><<-END,
 Ok, passons au vote à présent !
+Nous avons créé 2 votes : le 1er avec les 11 candidats officiels et le 2nd avec 4 candidats, vainqueurs ou finalistes des différentes primaires :
 END
 					:vote_ok_answer=>"Oui",
 					:vote_ok=>"Content de voir que tout s'est bien passé !\n",
@@ -310,8 +311,10 @@ END
 		local_screen= DeepClone.clone screen
 		local_screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?token="+vote_token_11
 		local_screen[:attachment]["payload"]["elements"][0]["default_action"]["url"]+="?token="+vote_token_11
+		local_screen[:attachment]["payload"]["elements"][0]["default_action"]["fallback_url"]+="?token="+vote_token_11
 		local_screen[:attachment]["payload"]["elements"][1]["buttons"][0]["url"]+="?token="+vote_token_4
 		local_screen[:attachment]["payload"]["elements"][1]["default_action"]["url"]+="?token="+vote_token_4
+		local_screen[:attachment]["payload"]["elements"][1]["default_action"]["fallback_url"]+="?token="+vote_token_4
 		return self.get_screen(local_screen,user,msg)
 	end
 
