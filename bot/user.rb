@@ -23,10 +23,12 @@ module Bot
 	class User
 		# general attr
 		attr_accessor :id                # id of the user
+		attr_accessor :sig
 		attr_accessor :first_name
 		attr_accessor :last_name
 		attr_accessor :username
 		attr_accessor :settings
+		attr_accessor :profile
 		attr_accessor :bot_upgrade
 		attr_accessor :bot
 

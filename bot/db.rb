@@ -22,14 +22,23 @@ module Bot
 		@@queries={}
 
 		def self.init
-			return unless defined? DBNAME
-			Bot.log.debug "connect to database : #{DBNAME} with user : #{DBUSER}"
-			@@db=PG.connect(
-				"dbname"=>DBNAME,
-				"user"=>DBUSER,
-				"password"=>DBPWD,
-				"host"=>DBHOST, 
-				"port"=>DBPORT
+			pgpwd=::DEBUG ? ::PGPWD_TEST : ::PGPWD_LIVE
+			pgname=::DEBUG ? ::PGNAME_TEST : ::PGNAME_LIVE
+			pguser=::DEBUG ? ::PGUSER_TEST : ::PGUSER_LIVE
+			pghost=::DEBUG ? ::PGHOST_TEST : ::PGHOST_LIVE
+			if ::DEBUG then
+				pgpwd=::PGPWD_LIVE
+				pgname=::PGNAME_LIVE
+				pguser=::PGUSER_LIVE
+				pghost=::PGHOST_LIVE
+			end
+			Bot.log.debug "connect to database : #{pgname} with user : #{pguser}"
+			@@db=::PG.connect(
+				"dbname"=>pgname,
+				"user"=>pguser,
+				"password"=>pgpwd,
+				"host"=>pghost, 
+				"port"=>::PGPORT
 			)
 		end
 
@@ -47,7 +56,12 @@ module Bot
 
 		def self.query(name,params)
 			Bot.log.info "#{__method__}: #{name} / values: #{params}"
-			@@db.exec_params(@@queries[name],params)
+			begin
+				res=@@db.exec_params(@@queries[name],params)
+			rescue ::PG::Error=>e
+				Bot.log.error "DB Error: #{e}"
+			end
+			return res
 		end
 	end
 end

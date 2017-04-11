@@ -103,7 +103,7 @@ module Bot
 			Bot.log.debug "Read message from user #{user.id} to bot #{msg.bot} with seq #{msg.seq}: #{msg.text}"
 
 			# load user if registered
-			user = @users.open(user)
+			user = @users.open_user_session(user)
 			_input       = user.state['expected_input']
 			_callback    = self.to_callback(user.state['callback'].to_s)
 
@@ -136,7 +136,7 @@ module Bot
 			# we didn't expect this message
 			return self.dont_understand(msg, user)
 
-			@users.close(user)
+			@users.close_user_session(user)
 		end
 
 		def is_reset(text)
