@@ -6,7 +6,7 @@ use Rack::Cors do
 		resource '*', headers: :any, methods: :get
 	end
 end
-
+FB_PAGEACCTOKEN= ::DEBUG ? FB_PAGEACCTOKEN_TEST : FB_PAGEACCTOKEN_LIVE 
 Bot.log=Bot::Log.new()
 Bot::Navigation.load_addons()
 Bot.nav=Bot::Navigation.new()

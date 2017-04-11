@@ -137,7 +137,7 @@ END
 				:official_candidates=>{
 					:callback=>"home/official_candidates_cb",
 					:attachment=>{
-						"type":"template",
+						"type"=>"template",
 						"payload"=>{
 							"template_type"=>"generic",
 							"elements"=>[
@@ -145,12 +145,12 @@ END
 									"title"=>"Les 11 candidat(e)s officiels",
 									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/JM2017-foule900.jpg",
 									"subtitle"=>"Cliquez sur 'Je vote' pour évaluer pour les 11 candidat(e)s officiels.",
-									"default_action": {
-										"type": "web_url",
+									"default_action"=> {
+										"type"=>"web_url",
 										"url"=>"https://laprimaire.org/citoyen/vote/facebook_11",
 										#"url"=>"http://localhost:9293/citoyen/vote/facebook_11",
-										"messenger_extensions": true,
-										"webview_height_ratio": "full",
+										"messenger_extensions"=> true,
+										"webview_height_ratio"=> "full",
 										#"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_11"
 										"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_11"
 									},
@@ -169,12 +169,12 @@ END
 									"title"=>"Les 4 candidat(e)s finalistes des primaires",
 									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/JM2017-foule900.jpg",
 									"subtitle"=>"Cliquez sur 'Je vote' pour évaluer pour 4 candidat(e)s finalistes des primaires.",
-									"default_action": {
-										"type": "web_url",
+									"default_action"=> {
+										"type"=> "web_url",
 										"url"=>"https://laprimaire.org/citoyen/vote/facebook_4",
 										#"url"=>"http://localhost:9293/citoyen/vote/facebook_4",
-										"messenger_extensions": true,
-										"webview_height_ratio": "full",
+										"messenger_extensions"=> true,
+										"webview_height_ratio"=> "full",
 										#"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_4"
 										"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_4"
 									},
@@ -217,7 +217,7 @@ END
 				},
 				:share=>{
 					:attachment=>{
-						"type":"template",
+						"type"=>"template",
 						"payload"=>{
 							"template_type"=>"generic",
 							#"image_aspect_ratio"=>"square",
@@ -227,15 +227,15 @@ END
 									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/share-jm-img-logo1.jpg",
 									#"subtitle"=>"Exprimez-vous sur les candidat(s) à la présidentielle grâce au jugement majoritaire.",
 									"subtitle"=>"Une expérience scientifique pour faire progresser la science du vote.",
-									"default_action": {
-										"type": "web_url",
+									"default_action"=> {
+										"type"=> "web_url",
 										"url"=>"https://m.me/JugementMajoritairePresidentielle2017",
 										#"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
 									},
 									"buttons"=>[
 										{
-										"type": "web_url",
-										"title": "Participer",
+										"type"=> "web_url",
+										"title"=> "Participer",
 										"url"=>"https://m.me/JugementMajoritairePresidentielle2017",
 										},
 										{
@@ -247,8 +247,8 @@ END
 									"title"=>"Utilisez le Jugement Majoritaire sur LaPrimaire.org",
 									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/share-legislatives-img2.jpg",
 									"subtitle"=>"Choisissez vos candidats pour les législatives.",
-									"default_action": {
-										"type": "web_url",
+									"default_action"=> {
+										"type"=> "web_url",
 										"url"=>"https://legislatives.laprimaire.org"
 									},
 									"buttons"=>[
