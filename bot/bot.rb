@@ -113,10 +113,28 @@ END
 		}
 	}
 
+	def self.mergeArray(oldval,newval)
+		tmp=[]
+		oldval.length.times do |i|
+			if !newval[i].nil? then
+				if oldval[i].class.to_s=="Hash" then
+					tmp.push(self.mergeHash(oldval[i],newval[i]))
+				else
+					tmp.push(newval[i])
+				end
+			else
+				tmp.push(oldval[i])
+			end
+		end
+		return tmp
+	end
+
 	def self.mergeHash(old_path,new_path)
-		return old_path.merge(new_path) do |key,oldval,newval| 
+		return old_path.merge(new_path) do |key,oldval,newval|
 			if oldval.class.to_s=="Hash" then
 				self.mergeHash(oldval,newval)
+			elsif oldval.class.to_s=="Array"
+				self.mergeArray(oldval,newval)
 			else
 				newval
 			end

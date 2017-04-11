@@ -65,6 +65,7 @@ END
 Bonjour #{Bot.emoticons[:smile]}
 Merci de votre participation à cette expérimentation scientifique.
 Sachez que votre vote est anonyme et que vos données personnelles ne sont pas enregistrées.
+A tout instant, vous pouvez réinitialiser notre conversation en m'écrivant "/start" (sans les guillemets).
 Pour commencer, connaissez-vous le jugement majoritaire ?
 END
 					:jm_yes_answer=>"Oui je connais",
@@ -76,7 +77,8 @@ END
 					:jm_no_answer=>"Non, dites m'en plus",
 					:jm_no=><<-END,
 Avec plaisir !
-Plus d'informations sur le jugement majoritaire sont disponibles sur https://www.jugementmajoritaire2017.com
+Le jugement majoritaire est un système de vote inventé par 2 chercheurs français dans le but de permettre aux électeurs de mieux exprimer leuris opinions.
+Pour plus d'informations sur le jugement majoritaire, n'hésitez pas à consulter la page https://www.jugementmajoritaire2017.com
 END
 					:understood_answer=>"Continuer",
 					:understood=><<-END,
@@ -348,14 +350,31 @@ END
 			:exp=>(Time.new.getutc+VOTING_TIME_ALLOWED).to_i
 		}
 		vote_token_4=JWT.encode token_4, CC_SECRET_FB, 'HS256'
-		local_screen= DeepClone.clone screen
-		local_screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]+="?token="+vote_token_11
-		local_screen[:attachment]["payload"]["elements"][0]["default_action"]["url"]+="?token="+vote_token_11
-		local_screen[:attachment]["payload"]["elements"][0]["default_action"]["fallback_url"]+="?token="+vote_token_11
-		local_screen[:attachment]["payload"]["elements"][1]["buttons"][0]["url"]+="?token="+vote_token_4
-		local_screen[:attachment]["payload"]["elements"][1]["default_action"]["url"]+="?token="+vote_token_4
-		local_screen[:attachment]["payload"]["elements"][1]["default_action"]["fallback_url"]+="?token="+vote_token_4
-		return self.get_screen(local_screen,user,msg)
+		vote_url=screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]
+		patch={
+			:attachment=>{
+				"payload"=>{
+					"elements"=>[
+						{
+							"buttons"=>[{"url"=>vote_url+"?token=#{vote_token_11}"}],
+							"default_action"=>{
+								"url"=>vote_url+"?token=#{vote_token_11}",
+								"fallback_url"=>vote_url+"?token=#{vote_token_11}"
+							}
+						},
+						{
+							"buttons"=>[{"url"=>vote_url+"?token=#{vote_token_4}"}],
+							"default_action"=>{
+								"url"=>vote_url+"?token=#{vote_token_4}",
+								"fallback_url"=>vote_url+"?token=#{vote_token_4}"
+							}
+						}
+					]
+				}
+			}
+		}
+		custom_screen=Bot.mergeHash(screen,patch)
+		return self.get_screen(custom_screen,user,msg)
 	end
 
 	def home_welcome_cb(msg,user,screen)
