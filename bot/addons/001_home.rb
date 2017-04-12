@@ -77,13 +77,17 @@ END
 					:jm_no_answer=>"Non, dites m'en plus",
 					:jm_no=><<-END,
 Avec plaisir !
-Le jugement majoritaire est un système de vote inventé par 2 chercheurs français dans le but de permettre aux électeurs de mieux exprimer leuris opinions.
+Le jugement majoritaire est un système de vote inventé par 2 chercheurs français dans le but de permettre aux électeurs de mieux exprimer leurs opinions.
+D'une part les électeurs sont invités à s'exprimer sur *tous* les candidats (au lieu d'en choisir un(e) seul(e)).
+D'autre part, le vote se fait en évaluant chaque candidat avec une mention allant de "Très bien" à "A rejeter".
 Pour plus d'informations sur le jugement majoritaire, n'hésitez pas à consulter la page https://www.jugementmajoritaire2017.com
 END
 					:understood_answer=>"Continuer",
 					:understood=><<-END,
 Ok, passons au vote à présent !
-Nous avons créé 2 votes : le 1er avec les 11 candidats officiels et le 2nd avec 4 candidats, vainqueurs ou finalistes des différentes primaires :
+Pour des raisons de confidentialité, le vote ne se fait pas sur Facebook mais sur une page sécurisée.
+Vos votes sont anonymes : Ni Facebook, ni nous n'avons la possibilité de connaître votre vote.
+Voici le 1er vote concernant les 11 candidat(e)s officiel(le)s à l'élection présidentielle :
 END
 					:vote_ok_answer=>"Oui",
 					:vote_ok=>"Content de voir que tout s'est bien passé !\n",
@@ -350,23 +354,24 @@ END
 			:exp=>(Time.new.getutc+VOTING_TIME_ALLOWED).to_i
 		}
 		vote_token_4=JWT.encode token_4, CC_SECRET_FB, 'HS256'
-		vote_url=screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"]
+		vote_url_11=screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"].split('?')[0]
+		vote_url_4=screen[:attachment]["payload"]["elements"][1]["buttons"][0]["url"].split('?')[0]
 		patch={
 			:attachment=>{
 				"payload"=>{
 					"elements"=>[
 						{
-							"buttons"=>[{"url"=>vote_url+"?token=#{vote_token_11}"}],
+							"buttons"=>[{"url"=>vote_url_11+"?token=#{vote_token_11}"}],
 							"default_action"=>{
-								"url"=>vote_url+"?token=#{vote_token_11}",
-								"fallback_url"=>vote_url+"?token=#{vote_token_11}"
+								"url"=>vote_url_11+"?token=#{vote_token_11}",
+								"fallback_url"=>vote_url_11+"?token=#{vote_token_11}"
 							}
 						},
 						{
-							"buttons"=>[{"url"=>vote_url+"?token=#{vote_token_4}"}],
+							"buttons"=>[{"url"=>vote_url_4+"?token=#{vote_token_4}"}],
 							"default_action"=>{
-								"url"=>vote_url+"?token=#{vote_token_4}",
-								"fallback_url"=>vote_url+"?token=#{vote_token_4}"
+								"url"=>vote_url_4+"?token=#{vote_token_4}",
+								"fallback_url"=>vote_url_4+"?token=#{vote_token_4}"
 							}
 						}
 					]
