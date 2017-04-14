@@ -27,7 +27,7 @@ module Bot
 		:envelope=>"\u{2709}",
 		:busts=>"\u{1F465}",
 		:grinning=>"\u{1F600}",
-		:frowning=>"\u{2639}",
+		:frowning=>"\u{1F641}",
 		:info=>"\u{2139}",
 		:halo=>"\u{1F607}",
 		:tongue=>"\u{1F60B}",

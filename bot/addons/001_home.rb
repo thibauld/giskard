@@ -45,15 +45,51 @@ END
 Top #{Bot.emoticons[:thumbs_up]}
 Passons au vote alors !
 END
+					:official_candidates=><<-END,
+Voici le 1er vote concernant les 11 candidat(e)s officiel(le)s à l'élection présidentielle :
+attachment:
+END
+					:non_official_candidates=><<-END,
+Passons à présent au 2nd vote concernant 4 candidat(e)s finalistes de leur primaire respective mais non-qualifiés :
+attachment:
+END
 					:vote_ok_answer=>"Oui",
 					:vote_ok=>"Content de voir que tout s'est bien passé !\n",
 					:vote_ko_answer=>"Non j'ai eu un souci",
 					:vote_ko=>"Désolé que le vote ne se soit pas bien passé, pouvez-vous nous contacter pour nous dire ce qu'il s'est passé ?\n",
+					:vote_ok_11_answer=>"Oui sans souci",
+					:vote_ok_11=>"Content de voir que tout se soit bien passé !\nPassons à présent au 2nd vote concernant 4 candidat(e)s finalistes de leur primaire respective mais non-qualifiés :",
+					#:vote_ko_11_answer=>"Non #{Bot.emoticons['crying_face']}",
+					:vote_ko_11_answer=>"Non non",
+					:vote_ko_11=>"Désolé pour ce souci ! Pouvez-vous nous laisser un message sur https://laprimaire.org/contact/ pour nous dire ce qu'il s'est passé ? Cela nous serait très utile !\n",
+					:vote_ok_4_answer=>"Oui aucun souci",
+					:vote_ok_4=>"Top !\n",
+					:vote_ko_4_answer=>"Non malheureusement",
+					:vote_ko_4=>"Toutes nos excuses pour ce souci, si vous pouviez nous laisser un message sur https://laprimaire.org/contact/ pour nous dire ce qu'il s'est passé, cela nous aiderait beaucoup !\n",
 					:question_jm=>"Est-ce que c'était facile de voter ?",
 					:question_jm_yes_answer=>"Facile",
 					:question_jm_yes=>"Très bonne nouvelle, cette expérimentation est désormais terminée, merci beaucoup pour votre participation.\nN'hésitez pas à partager cette expérimentation à vos amis pour leur faire découvrir le jugement majoritaire.\nEnfin, pour utiliser le jugement majoritaire dans la vraie vie, sachez que LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.",
 					:question_jm_no_answer=>"Difficile",
 					:question_jm_no=>"Merci pour votre opinion, cette expérimentation est désormais terminée, merci beaucoup pour votre participation !\nN'hésitez pas à partager cette expérimentation à vos amis pour leur faire découvrir le jugement majoritaire.\nEnfin, pour utiliser le jugement majoritaire dans la vraie vie, sachez que LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.",
+					:question_share_experiment=><<-END,
+Seriez-vous d'accord pour nous aider en partageant cette expérimentation à quelques uns de vos proches et amis de votre choix ? 
+END
+					:question_share_experiment_no_answer=>"Non merci",
+					:question_share_experiment_no=><<-END,
+Dommage #{Bot.emoticons['disappointed']}
+END
+					:question_share_experiment_yes_answer=>"Avec plaisir",
+					:question_share_experiment_yes=><<-END,
+Merci beaucoup ! Voici un petit texte prêt à partager :
+attachment:
+Cliquez sur "Partager" pour choisir les amis à qui vous souhaitez partager cette expérience. Cliquez sur "C'est fait !" une fois terminé.
+END
+					:done_button_answer=>"C'est fait !",
+					:done_button=>"Merci énormément pour votre coup de pouce #{Bot.emoticons['smile']}\n",
+					:share_laprimaire=><<-END,
+Pour finir, sachez que, si vous voulez utiliser le jugement majoritaire, LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.
+attachment:
+END
 				}
 			},
 			:fr=>{
@@ -72,7 +108,6 @@ END
 					:jm_yes=><<-END,
 Parfait #{Bot.emoticons[:thumbs_up]}
 A présent, passons au vote !
-Nous avons créé 2 votes : le 1er avec les 11 candidats officiels et le 2nd avec 4 candidats, vainqueurs ou finalistes des différentes primaires :
 END
 					:jm_no_answer=>"Non, dites m'en plus",
 					:jm_no=><<-END,
@@ -87,12 +122,31 @@ END
 Ok, passons au vote à présent !
 Pour des raisons de confidentialité, le vote ne se fait pas sur Facebook mais sur une page sécurisée.
 Vos votes sont anonymes : Ni Facebook, ni nous n'avons la possibilité de connaître votre vote.
+END
+					:official_candidates=><<-END,
 Voici le 1er vote concernant les 11 candidat(e)s officiel(le)s à l'élection présidentielle :
+attachment:
+END
+					:non_official_candidates=><<-END,
+Passons à présent au 2nd vote concernant 4 candidat(e)s finalistes de leur primaire respective mais non-qualifiés :
+attachment:
 END
 					:vote_ok_answer=>"Oui",
 					:vote_ok=>"Content de voir que tout s'est bien passé !\n",
 					:vote_ko_answer=>"Non j'ai eu un souci",
 					:vote_ko=>"Désolé que le vote ne se soit pas bien passé, pouvez-vous nous laisser un message sur https://laprimaire.org/contact/ pour nous dire ce qu'il s'est passé ? Cela nous serait très utile !\n",
+					:vote_ok_11_answer=>"Oui sans souci",
+					:vote_ok_11=>"Content de voir que tout s'est bien passé !\n",
+					#:vote_ko_11_answer=>"Non #{Bot.emoticons['crying_face']}",
+					:vote_ko_11_answer=>"Non non",
+					:vote_ko_11=><<-END,
+Désolé pour ce souci #{Bot.emoticons['disappointed']}
+Pouvez-vous nous laisser un message sur https://laprimaire.org/contact/ pour nous dire ce qu'il s'est passé ? Cela nous serait très utile !
+END
+					:vote_ok_4_answer=>"Oui aucun souci",
+					:vote_ok_4=>"Top !\n",
+					:vote_ko_4_answer=>"Non malheureusement",
+					:vote_ko_4=>"Toutes nos excuses pour ce, si vous pouviez nous laisser un message sur https://laprimaire.org/contact/ pour nous dire ce qu'il s'est passé, cela nous aiderait beaucoup !\n",
 					:question_jm=><<-END,
 Trouvez-vous que la manière dont vous venez de voter (en jugeant chacun des candidats) exprime mieux ou moins bien votre opinion, en comparaison avec le « système officiel » (où vous choisissez un seul candidat) ?
 END
@@ -100,15 +154,31 @@ END
 					:question_jm_yes=><<-END,
 Merci pour votre opinion !
 Cette expérimentation est désormais terminée, merci pour votre participation !
-A présent n'hésitez pas à partager cette expérimentation à vos proches et amis car nous avons besoin de beaucoup de participants.
-Sachez enfin que, si vous voulez utiliser le jugement majoritaire, LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.
 END
 					:question_jm_no_answer=>"Moins bien",
 					:question_jm_no=><<-END,
 Merci pour votre opinion !
 Cette expérimentation est désormais terminée, merci pour votre participation !
-Partagez cette expérimentation à vos proches et amis car nous avons besoin de beaucoup de participants.
-Sachez enfin que, si vous voulez utiliser le jugement majoritaire, LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.
+END
+					:question_share_experiment=><<-END,
+Seriez-vous d'accord pour nous aider en partageant cette expérimentation à quelques uns de vos proches et amis de votre choix ? 
+END
+					:question_share_experiment_no_answer=>"Non merci",
+					:question_share_experiment_no=><<-END,
+Dommage #{Bot.emoticons['disappointed']}
+END
+					:question_share_experiment_yes_answer=>"Avec plaisir",
+					:question_share_experiment_yes=><<-END,
+Merci beaucoup ! Voici un petit texte prêt à partager :
+attachment:
+Cliquez sur "Partager" pour choisir les amis à qui vous souhaitez la partager. Cliquez sur "C'est fait !" une fois que vous avez terminé.
+END
+					:done_button_answer=>"C'est fait !",
+					:done_button=>"Merci énormément pour votre coup de pouce #{Bot.emoticons['thumbs_up']}\n",
+					:share_laprimaire=><<-END,
+Si vous voulez utiliser à nouveau le jugement majoritaire, sachez que LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.
+attachment:
+Merci encore et à bientôt pour les résultats !
 END
 				}
 			}
@@ -124,7 +194,6 @@ END
 				},
 				:welcome=>{
 					:callback=>"home/welcome_cb",
-					#:jump_to=>"home/share"
 					:kbd=>[ {"text"=>"home/jm_no"}, {"text"=>"home/jm_yes"} ]
 				},
 				:jm_yes=>{
@@ -134,7 +203,6 @@ END
 				},
 				:jm_no=>{
 					:answer=>"home/jm_no_answer",
-					#:jump_to=>"home/official_candidates"
 					:callback=>"home/jm_no_cb",
 					:kbd=>[{"text"=>"home/understood"}]
 				},
@@ -157,10 +225,12 @@ END
 										"type"=>"web_url",
 										"url"=>"https://laprimaire.org/citoyen/vote/facebook_11",
 										#"url"=>"http://localhost:9293/citoyen/vote/facebook_11",
+										#"url"=>"https://laprimaire.org/citoyen/vote/facebook_11?token=a&test=1",
 										"messenger_extensions"=> true,
 										"webview_height_ratio"=> "full",
-										#"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_11"
 										"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_11"
+										#"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_11"
+										#"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_11?token=a&test=1",
 									},
 									"buttons"=>[
 										{
@@ -168,11 +238,23 @@ END
 											"title"=>"Je vote !",
 											"url"=>"https://laprimaire.org/citoyen/vote/facebook_11",
 											#"url"=>"http://localhost:9293/citoyen/vote/facebook_11",
+											#"url"=>"https://laprimaire.org/citoyen/vote/facebook_11?token=a&test=1",
 											"webview_height_ratio"=>"full",
 											"webview_share_button"=>"hide"
 										}
 									]      
-								},
+								}
+							]
+						}
+					}
+				},
+				:non_official_candidates=>{
+					:callback=>"home/non_official_candidates_cb",
+					:attachment=>{
+						"type"=>"template",
+						"payload"=>{
+							"template_type"=>"generic",
+							"elements"=>[
 								{
 									"title"=>"Les 4 candidat(e)s finalistes des primaires",
 									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/JM2017-foule900.jpg",
@@ -181,10 +263,12 @@ END
 										"type"=> "web_url",
 										"url"=>"https://laprimaire.org/citoyen/vote/facebook_4",
 										#"url"=>"http://localhost:9293/citoyen/vote/facebook_4",
+										#"url"=>"https://laprimaire.org/citoyen/vote/facebook_4?token=a&test=2",
 										"messenger_extensions"=> true,
 										"webview_height_ratio"=> "full",
-										#"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_4"
 										"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_4"
+										#"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_4"
+										#"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_4?token=a&test=2"
 									},
 									"buttons"=>[
 										{
@@ -192,6 +276,7 @@ END
 											"title"=>"Je vote !",
 											"url"=>"https://laprimaire.org/citoyen/vote/facebook_4",
 											#"url"=>"http://localhost:9293/citoyen/vote/facebook_4",
+											#"url"=>"https://laprimaire.org/citoyen/vote/facebook_4?token=a&test=2",
 											"webview_height_ratio"=>"full",
 											"webview_share_button"=>"hide"
 										}
@@ -211,6 +296,26 @@ END
 					:callback=>"home/vote_ko_cb",
 					:jump_to=>"home/question_jm"
 				},
+				:vote_ok_11=>{
+					:answer=>"home/vote_ok_11_answer",
+					:callback=>"home/vote_ok_11_cb",
+					:jump_to=>"home/non_official_candidates"
+				},
+				:vote_ko_11=>{
+					:answer=>"home/vote_ko_11_answer",
+					:callback=>"home/vote_ko_11_cb",
+					:jump_to=>"home/non_official_candidates"
+				},
+				:vote_ok_4=>{
+					:answer=>"home/vote_ok_4_answer",
+					:callback=>"home/vote_ok_4_cb",
+					:jump_to=>"home/question_jm"
+				},
+				:vote_ko_4=>{
+					:answer=>"home/vote_ko_4_answer",
+					:callback=>"home/vote_ko_4_cb",
+					:jump_to=>"home/question_jm"
+				},
 				:question_jm=>{
 					:kbd=>[
 						{"text"=>"home/question_jm_yes"},
@@ -220,41 +325,66 @@ END
 				:question_jm_yes=>{
 					:answer=>"home/question_jm_yes_answer",
 					:callback=>"home/question_jm_yes_cb",
-					:jump_to=>"home/share"
+					:jump_to=>"home/question_share_experiment"
 				},
 				:question_jm_no=>{
 					:answer=>"home/question_jm_no_answer",
 					:callback=>"home/question_jm_no_cb",
-					:jump_to=>"home/share"
+					:jump_to=>"home/question_share_experiment"
 				},
-				:share=>{
+				:question_share_experiment=>{
+					:kbd=>[
+						{"text"=>"home/question_share_experiment_yes"},
+						{"text"=>"home/question_share_experiment_no"}
+					]
+				},
+				:question_share_experiment_no=>{
+					:answer=>"home/question_share_experiment_no_answer",
+					:callback=>"home/share_experiment_no_cb",
+					:jump_to=>"home/share_laprimaire"
+				},
+				:question_share_experiment_yes=>{
+					:answer=>"home/question_share_experiment_yes_answer",
+					:callback=>"home/share_experiment_yes_cb",
+					:kbd=>[{"text"=>"home/done_button"}],
 					:attachment=>{
 						"type"=>"template",
 						"payload"=>{
 							"template_type"=>"generic",
-							#"image_aspect_ratio"=>"square",
 							"elements"=>[
 								{
 									"title"=>"Découvrez le Jugement Majoritaire",
 									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/share-jm-img-logo1.jpg",
-									#"subtitle"=>"Exprimez-vous sur les candidat(s) à la présidentielle grâce au jugement majoritaire.",
 									"subtitle"=>"Une expérience scientifique pour faire progresser la science du vote.",
 									"default_action"=> {
 										"type"=> "web_url",
-										"url"=>"https://m.me/JugementMajoritairePresidentielle2017",
-										#"url"=>"http://localhost:9293/citoyen/vote/facebook_voting",
+										"url"=>"https://m.me/JugementMajoritairePresidentielle2017"
 									},
 									"buttons"=>[
 										{
 										"type"=> "web_url",
 										"title"=> "Participer",
-										"url"=>"https://m.me/JugementMajoritairePresidentielle2017",
+										"url"=>"https://m.me/JugementMajoritairePresidentielle2017"
 										},
 										{
 											"type"=>"element_share"
 										}
 									]      
-								},
+								}
+							]
+						}
+					}
+				},
+				:done_button=>{
+					:answer=>"home/done_button_answer",
+					:jump_to=>"home/share_laprimaire"
+				},
+				:share_laprimaire=>{
+					:attachment=>{
+						"type"=>"template",
+						"payload"=>{
+							"template_type"=>"generic",
+							"elements"=>[
 								{
 									"title"=>"Utilisez le Jugement Majoritaire sur LaPrimaire.org",
 									"image_url"=>"https://s3.eu-west-2.amazonaws.com/www.jugementmajoritaire2017.com/images/share-legislatives-img2.jpg",
@@ -266,7 +396,7 @@ END
 									"buttons"=>[
 										{
 											"type"=>"web_url",
-											"title"=>"Participer",
+											"title"=>"En savoir plus",
 											"url"=>"https://legislatives.laprimaire.org"
 										},
 										{
@@ -277,7 +407,7 @@ END
 							]
 						}
 					}
-				},
+				}
 			}
 		}
 		Bot.updateScreens(screens)
@@ -328,6 +458,42 @@ END
 		return self.get_screen(screen,user,msg)
 	end
 
+	def home_vote_ok_11_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"vote_OK":1,"vote_officiel":1}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_vote_ko_11_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"vote_OK":0,"vote_officiel":0}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_vote_ok_4_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"vote_non_officiel":1}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_vote_ko_4_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"vote_non_officiel":0}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_share_experiment_yes_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"share_experiment":1}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_share_experiment_no_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"share_experiment":0}');
+		return self.get_screen(screen,user,msg)
+	end
+
 	def home_official_candidates_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
 		if VOTE_PAUSED then
@@ -344,18 +510,7 @@ END
 			:exp=>(Time.new.getutc+VOTING_TIME_ALLOWED).to_i
 		}
 		vote_token_11=JWT.encode token_11, CC_SECRET_FB, 'HS256'
-		token_4={
-			:iss=> CC_APP_ID_FB,
-			:sub=> Digest::SHA256.hexdigest(user.id.to_s+'@facebook.com'),
-			:email=> user.id.to_s+'@facebook.com',
-			:lastName=> user.last_name,
-			:firstName=> user.first_name,
-			:authorizedVotes=> [FB_VOTE_ID_4],
-			:exp=>(Time.new.getutc+VOTING_TIME_ALLOWED).to_i
-		}
-		vote_token_4=JWT.encode token_4, CC_SECRET_FB, 'HS256'
 		vote_url_11=screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"].split('?')[0]
-		vote_url_4=screen[:attachment]["payload"]["elements"][1]["buttons"][0]["url"].split('?')[0]
 		patch={
 			:attachment=>{
 				"payload"=>{
@@ -366,7 +521,37 @@ END
 								"url"=>vote_url_11+"?token=#{vote_token_11}",
 								"fallback_url"=>vote_url_11+"?token=#{vote_token_11}"
 							}
-						},
+						}
+					]
+				}
+			}
+		}
+		custom_screen=Bot.mergeHash(screen,patch)
+		return self.get_screen(custom_screen,user,msg)
+	end
+
+
+	def home_non_official_candidates_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		if VOTE_PAUSED then
+			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
+			return self.get_screen(screen,user,msg)
+		end
+		token_4={
+			:iss=> CC_APP_ID_FB,
+			:sub=> Digest::SHA256.hexdigest(user.id.to_s+'@facebook.com'),
+			:email=> user.id.to_s+'@facebook.com',
+			:lastName=> user.last_name,
+			:firstName=> user.first_name,
+			:authorizedVotes=> [FB_VOTE_ID_4],
+			:exp=>(Time.new.getutc+VOTING_TIME_ALLOWED).to_i
+		}
+		vote_token_4=JWT.encode token_4, CC_SECRET_FB, 'HS256'
+		vote_url_4=screen[:attachment]["payload"]["elements"][0]["buttons"][0]["url"].split('?')[0]
+		patch={
+			:attachment=>{
+				"payload"=>{
+					"elements"=>[
 						{
 							"buttons"=>[{"url"=>vote_url_4+"?token=#{vote_token_4}"}],
 							"default_action"=>{

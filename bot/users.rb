@@ -24,7 +24,7 @@ module Bot
 		def self.load_queries
 			queries={
 				'find_user_by_id'=>'SELECT * FROM fb_users WHERE id=$1',
-				'insert_user'=>'INSERT INTO fb_users (id,firstname,lastname) VALUES ($1,$2,$3) RETURNING *',
+				'insert_user'=>'INSERT INTO fb_users (id,firstname,lastname,fb_id) VALUES ($1,$2,$3,$4) RETURNING *',
 				'update_user_profile'=>'UPDATE fb_users SET profile=profile || $2::jsonb WHERE id=$1 RETURNING *',
 				'count_users'=>'SELECT COUNT(*) FROM fb_users'
 			}
@@ -39,7 +39,7 @@ module Bot
 			## WARNING ## 
 			# This is for example purpose only and will work with only 1 unicorn process.
 			# If you use more than 1 unicorn process, you should save users in shared memory or a database to ensure data consistency between unicorn processes.
-			return Bot::Db.query('insert_user',[user.sig,user.first_name,user.last_name])
+			return Bot::Db.query('insert_user',[user.sig,user.first_name,user.last_name,user.id])
 		end
 
 		# given a User instance with a Bot name and an ID, we look into the database to load missing informations, or to create it in the database
@@ -53,7 +53,11 @@ module Bot
 				when TG_BOT_NAME then
 					Bot.log.debug("Nouveau participant : #{user.first_name} #{user.last_name} (<https://telegram.me/#{user.username}|@#{user.username}>)")
 				when FB_BOT_NAME then
-					res              = URI.parse("https://graph.facebook.com/v2.6/#{user.id}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=#{FB_PAGEACCTOKEN}").read
+					begin
+						res = URI.parse("https://graph.facebook.com/v2.6/#{user.id}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=#{FB_PAGEACCTOKEN}").read
+					rescue Exception=>e
+						Bot.log.error "Error retrieving user fb profile info: #{e}\n#{e.msg}"
+					end
 					r_user           = JSON.parse(res)
 					r_user           = JSON.parse(JSON.dump(r_user), object_class: OpenStruct)
 					user.first_name  = r_user.first_name

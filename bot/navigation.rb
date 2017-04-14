@@ -115,13 +115,6 @@ module Bot
 			#   msg.seq =-1
 			#   msg.text  ='api/bot_upgrade'
 			# end
-			# if msg.seq == -1 then
-			#   # msg comes from api and not from telegram
-			#   api_cb,api_payload=msg.text.split("\n",2).each {|x| x.strip!}
-			#   raise "no callback given" if api_cb.nil?
-			#   user.next_answer('free_text',1,api_cb)
-			#   user.state['api_payload'] = api_payload if !api_payload.nil?
-			# end
 			return self.get_api_answer(msg, user) if msg.seq==-1
 
 			# reset
@@ -147,7 +140,7 @@ module Bot
 			Bot.log.debug "#{__method__} #{msg.text}"
 			_callback          = self.to_callback(user.state['callback'].to_s)
 			_locale            = self.get_locale(user)
-			_screen                 = self.find_by_name(msg.text, _locale)
+			_screen            = self.find_by_name(msg.text, _locale)
 			if not _screen.nil? then
 				_screen           = get_screen(_screen,user,msg)
 				_answer           = _screen[:text].nil? ? "" : _screen[:text]
@@ -199,11 +192,14 @@ module Bot
 				_answer           = _screen[:text].nil? ? "" : _screen[:text]
 				_current          = user.state['current']
 				_screen           = self.find_by_name(_current,_locale) if _screen[:id]!= _current and !_current.nil?
+				_screen[:attachments]=[] if _screen[:attachments].nil?
+				_screen[:attachments].push(_screen[:attachment]) unless _screen[:attachment].nil?
 				_jump_to          = _screen[:jump_to]
 				while !_jump_to.nil? do
 					_next_screen       = find_by_name(_jump_to,_locale)
 					_b                 = get_screen(_next_screen,user,msg)
 					_answer           += _b[:text] unless _b[:text].nil?
+					_screen[:attachments].push(_b[:attachment]) unless _b[:attachment].nil?
 					_screen.merge!(_b) unless _b.nil?
 					_screen[:text]     = _answer unless _answer.nil?
 					_jump_to           = _next_screen[:jump_to]
@@ -215,11 +211,11 @@ module Bot
 		end
 
 		def get_text_answer(msg, user)
-			Bot.log.debug "#{__method__} #{msg.text}  #{user.state['callback']}"
+			Bot.log.debug "#{__method__} #{msg.text} #{user.state['callback']}"
 			_callback                 	= self.to_callback(user.state['callback'].to_s)
 			_locale                   	= self.get_locale(user)
 			user.state['expected_size'] -= 1 # how many lines of answer do we expect?
-			_input_size					= user.state['expected_size']
+			_input_size			= user.state['expected_size']
 			user.state['buffer']		= user.state['buffer'] + msg.text unless msg.text.nil?
 			_screen                   	= self.find_by_name(user.state['callback'], _locale)
 			if _input_size==0 then

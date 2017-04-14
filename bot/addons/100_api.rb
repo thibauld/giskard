@@ -22,12 +22,16 @@ module Api
 		messages={
 			:en=>{
 				:api=>{
-					:vote_completed=>"Le vote s'est-il correctement déroulé ?"
+					:vote_completed=>"Le vote s'est-il correctement déroulé ?",
+					:vote_completed_11=>"Le vote concernant les 11 candidat(e)s officiels s'est-il correctement déroulé ?",
+					:vote_completed_4=>"Le vote concernant les 4 candidat(e)s non-officiels s'est-il correctement déroulé ?"
 				}
 			},
 			:fr=>{
 				:api=>{
-					:vote_completed=>"Le vote s'est-il correctement déroulé ?"
+					:vote_completed=>"Le vote s'est-il correctement déroulé ?",
+					:vote_completed_11=>"Le vote concernant les 11 candidat(e)s officiels s'est-il correctement déroulé ?",
+					:vote_completed_4=>"Le vote concernant les 4 candidat(e)s non-officiels s'est-il correctement déroulé ?"
 				}
 			}
 		}
@@ -38,11 +42,36 @@ module Api
 						{"text"=>"home/vote_ok","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/bien.png"},
 						{"text"=>"home/vote_ko","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/insuffisant.png"}
 					]
-				}
+				},
+				:vote_completed_11=>{
+					:callback=>"api/vote_11",
+					:kbd=>[
+						{"text"=>"home/vote_ok_11","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/bien.png"},
+						{"text"=>"home/vote_ko_11","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/insuffisant.png"}
+					]
+				},
+				:vote_completed_4=>{
+					:callback=>"api/vote_4",
+					:kbd=>[
+						{"text"=>"home/vote_ok_4","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/bien.png"},
+						{"text"=>"home/vote_ko_4","image_url"=>"https://s3.eu-central-1.amazonaws.com/laprimaire/images/insuffisant.png"}
+					]
+				},
+
 			}
 		}
 		Bot.updateScreens(screens)
 		Bot.updateMessages(messages)
+	end
+
+	def api_vote_11(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		return self.get_screen(screen,user,msg)
+	end
+
+	def api_vote_11(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		return self.get_screen(screen,user,msg)
 	end
 end
 

@@ -36,6 +36,8 @@ module Giskard
 				Bot.log.debug "sending done (code: #{res.code})"
 			rescue RestClient::BadRequest=>e
 				Bot.log.error "BAD Request : #{e}"
+				#Bot.log.error "#{payload}"
+				raise e
 			end
 		end
 
@@ -52,12 +54,13 @@ module Giskard
 			end
 
 			def send_msg(id,text,kbd=nil,attachment=nil)
-				msg={"recipient"=>{"id"=>id}}
-				if not kbd.nil? then
-					msg["message"]={
-						"text"=>text,
-						"quick_replies"=>[]
-					}
+				msg={
+					"recipient"=>{"id"=>id},
+					"message"=>{}
+				}
+				msg["message"].merge!({"text"=>text}) if not text.nil?
+				if not kbd.nil?
+					msg["message"].merge!({"quick_replies"=>[]})
 					kbd.each do |k|
 						title=k['title'].nil? ? k['text'] : k['title']
 						payload=k['payload'].nil? ? k['text'] : k['payload']
@@ -70,13 +73,9 @@ module Giskard
 						qr["image_url"]=image_url unless image_url.nil?
 						msg["message"]["quick_replies"].push(qr)
 					end
-				elsif not attachment.nil? then
-					msg["message"]={
-						"attachment"=>attachment
-					}
-				else
-					msg["message"]={ "text"=>text }
 				end
+				msg["message"].merge!({ "attachment"=>attachment }) if not attachment.nil?
+				msg.delete("message") if msg["message"].empty?
 				Giskard::FBMessengerBot.send(msg)
 			end
 
@@ -106,6 +105,7 @@ module Giskard
 					next if l.empty?
 					idx+=1
 					image=(l.start_with?("image:") && (['.jpg','.png','.gif','.jpeg'].include? File.extname(l)))
+					has_attachment=l.start_with?("attachment:")
 					if image && !buffer.empty? then # flush buffer before sending image
 						writing_time=buffer.length/TYPINGSPEED
 						send_typing(id)
@@ -126,10 +126,14 @@ module Giskard
 						end
 						if (idx==max) then
 							kbd=options[:kbd] 
-							attachment=options[:attachment]
 						end
-						send_msg(id,l,kbd,nil)
-						send_msg(id,nil,nil,attachment) unless attachment.nil?
+						attachment=options[:attachments].shift() if has_attachment
+						Bot.log.info "l=#{l} attachment=#{has_attachment}"
+						if not has_attachment then
+							send_msg(id,l,kbd,nil)
+						else
+							send_msg(id,nil,nil,attachment)
+						end
 					end
 				end
 			end
