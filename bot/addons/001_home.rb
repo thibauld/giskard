@@ -59,8 +59,7 @@ END
 					:vote_ko=>"Désolé que le vote ne se soit pas bien passé, pouvez-vous nous contacter pour nous dire ce qu'il s'est passé ?\n",
 					:vote_ok_11_answer=>"Oui sans souci",
 					:vote_ok_11=>"Content de voir que tout se soit bien passé !\nPassons à présent au 2nd vote concernant 4 candidat(e)s finalistes de leur primaire respective mais non-qualifiés :",
-					#:vote_ko_11_answer=>"Non #{Bot.emoticons['crying_face']}",
-					:vote_ko_11_answer=>"Non non",
+					:vote_ko_11_answer=>"Non #{Bot.emoticons['crying_face']}",
 					:vote_ko_11=>"Désolé pour ce souci ! Pouvez-vous nous laisser un message sur https://laprimaire.org/contact/ pour nous dire ce qu'il s'est passé ? Cela nous serait très utile !\n",
 					:vote_ok_4_answer=>"Oui aucun souci",
 					:vote_ok_4=>"Top !\n",
@@ -137,8 +136,7 @@ END
 					:vote_ko=>"Désolé que le vote ne se soit pas bien passé, pouvez-vous nous laisser un message sur https://laprimaire.org/contact/ pour nous dire ce qu'il s'est passé ? Cela nous serait très utile !\n",
 					:vote_ok_11_answer=>"Oui sans souci",
 					:vote_ok_11=>"Content de voir que tout s'est bien passé !\n",
-					#:vote_ko_11_answer=>"Non #{Bot.emoticons['crying_face']}",
-					:vote_ko_11_answer=>"Non non",
+					:vote_ko_11_answer=>"Non #{Bot.emoticons['crying_face']}",
 					:vote_ko_11=><<-END,
 Désolé pour ce souci #{Bot.emoticons['disappointed']}
 Pouvez-vous nous laisser un message sur https://laprimaire.org/contact/ pour nous dire ce qu'il s'est passé ? Cela nous serait très utile !
