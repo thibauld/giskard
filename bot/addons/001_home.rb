@@ -418,7 +418,7 @@ END
 			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
 			return self.get_screen(screen,user,msg)
 		end
-		@users.update_profile(user.sig,'{"connait_JM":1}');
+		user.save('{"connait_JM":1}');
 		return self.get_screen(screen,user,msg)
 	end
 
@@ -428,67 +428,67 @@ END
 			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
 			return self.get_screen(screen,user,msg)
 		end
-		@users.update_profile(user.sig,'{"connait_JM":0}');
+		user.save('{"connait_JM":0}');
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_question_jm_yes_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		@users.update_profile(user.sig,'{"mieux_que_SM":1}');
+		user.save('{"mieux_que_SM":1}');
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_question_jm_no_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		@users.update_profile(user.sig,'{"mieux_que_SM":0}');
+		user.save('{"mieux_que_SM":0}');
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ok_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		@users.update_profile(user.sig,'{"vote_OK":1}');
+		user.save('{"vote_OK":1}');
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ko_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		@users.update_profile(user.sig,'{"vote_OK":0}');
+		user.save('{"vote_OK":0}');
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ok_11_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		@users.update_profile(user.sig,'{"vote_OK":1,"vote_officiel":1}');
+		user.save('{"vote_OK":1,"vote_officiel":1}');
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ko_11_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		@users.update_profile(user.sig,'{"vote_OK":0,"vote_officiel":0}');
+		user.save('{"vote_OK":0,"vote_officiel":0}');
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ok_4_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		@users.update_profile(user.sig,'{"vote_non_officiel":1}');
+		user.save('{"vote_non_officiel":1}');
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ko_4_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		@users.update_profile(user.sig,'{"vote_non_officiel":0}');
+		user.save('{"vote_non_officiel":0}');
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_share_experiment_yes_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		@users.update_profile(user.sig,'{"share_experiment":1}');
+		user.save('{"share_experiment":1}');
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_share_experiment_no_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		@users.update_profile(user.sig,'{"share_experiment":0}');
+		user.save('{"share_experiment":0}');
 		return self.get_screen(screen,user,msg)
 	end
 

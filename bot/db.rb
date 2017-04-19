@@ -16,12 +16,13 @@
    limitations under the License.
 =end
 
-module Bot
+module Giskard
 	class Db
 		@@db=nil
 		@@queries={}
 
-		def self.init
+		def initialize
+			return unless defined? PGNAME_LIVE
 			pgpwd=::DEBUG ? ::PGPWD_TEST : ::PGPWD_LIVE
 			pgname=::DEBUG ? ::PGNAME_TEST : ::PGNAME_LIVE
 			pguser=::DEBUG ? ::PGUSER_TEST : ::PGUSER_LIVE
@@ -43,10 +44,12 @@ module Bot
 		end
 
 		def self.load_queries
-			Bot::Users.load_queries
+			Giskard::Core::User.load_queries
+			Giskard::FB::User.load_queries
+			Giskard::TG::User.load_queries
 		end
 
-		def self.prepare(name,query)
+		def prepare(name,query)
 			@@queries[name]=query
 		end
 
@@ -54,7 +57,7 @@ module Bot
 			@@db.close() unless @@db.nil?
 		end
 
-		def self.query(name,params)
+		def query(name,params)
 			Bot.log.info "#{__method__}: #{name} / values: #{params}"
 			begin
 				res=@@db.exec_params(@@queries[name],params)

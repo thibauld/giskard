@@ -6,6 +6,7 @@ require 'rack/cors'
 require 'grape'
 require 'json'
 require 'time'
+require 'date'
 require 'net/http'
 require 'uri'
 require 'open-uri'
@@ -13,6 +14,6 @@ require 'telegram/bot' if TELEGRAM
 require 'logger'
 require 'ostruct' if FBMESSENGER
 require 'rest_client' if FBMESSENGER
-require 'deep_clone'
 require 'digest'
 require 'pg'
+require 'yaml'

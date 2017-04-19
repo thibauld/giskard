@@ -58,6 +58,7 @@ END
 					:kbd=>[
 						{"text"=>"help/first_help_ok"}
 					],
+					:kbd_options=>{:resize_keyboard=>true,:one_time_keyboard=>false,:selective=>true},
 					:disable_web_page_preview=>true
 				}
 			}
@@ -74,7 +75,7 @@ END
 		else
 			screen=self.find_by_name("home/welcome",locale) if screen.nil?
 			if !screen[:text].nil? then
-				screen[:text]=Bot.getMessage("help/first_help_ok",locale)+"\n"+screen[:text]
+				screen[:text] = Bot.getMessage("help/first_help_ok",locale)+"\n"+screen[:text]
 			else
 				screen[:text]=Bot.getMessage("help/first_help_ok",locale)
 			end

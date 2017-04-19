@@ -18,7 +18,7 @@
 
 module Bot
 	class << self
-		attr_accessor :nav, :log
+		attr_accessor :nav, :log, :db
 	end
 
 	@@emoticons={ # see http://unicode.org/emoji/charts/full-emoji-list.html
@@ -142,9 +142,9 @@ END
 	end
 
 	def self.mergeMenu(old_path,new_path)
-		return old_path.merge(new_path) do |key,oldval,newval| 
+		return old_path.merge(new_path) do |key,oldval,newval|
 			if key==:kbd then
-				oldval.push(newval) 
+				oldval.push(newval)
 			else
 				self.mergeMenu(oldval,newval)
 			end
@@ -152,7 +152,7 @@ END
 	end
 
 	def self.addMenu(path)
-		@@screens=self.mergeMenu(@@screens,path) 
+		@@screens=self.mergeMenu(@@screens,path)
 	end
 
 	def self.updateScreens(new_screens)
