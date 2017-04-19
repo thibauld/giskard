@@ -69,7 +69,7 @@ module Api
 		return self.get_screen(screen,user,msg)
 	end
 
-	def api_vote_11(msg,user,screen)
+	def api_vote_4(msg,user,screen)
 		Bot.log.debug "#{__method__}"
 		return self.get_screen(screen,user,msg)
 	end
