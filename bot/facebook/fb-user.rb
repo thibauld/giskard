@@ -83,7 +83,7 @@ module Giskard
 
 			# save in the database the user with its fsm
 			def save(profile=nil)
-				@profile=profile unless profile.nil?
+				@profile.merge!(profile) unless profile.nil?
 				Bot.db.query('update_user_profile',[@sig,@profile])
 				#super
 			end
