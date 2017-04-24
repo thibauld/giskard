@@ -155,43 +155,36 @@ module Giskard
 			# we receive a new message
 			post '/fbmessenger' do
 				object 	    = params['object']
-				begin
-					#Giskard::Db.init()
-					if object=='page' then
-						entries     = params['entry']
-						entries.each do |entry|
-							entry.messaging.each do |messaging|
-								Bot.log.debug "#{messaging}"
-								msg 	 = Giskard::FB::Message.new(messaging)
-								user     = Giskard::FB::User.new(messaging.sender.id)
-								user.create unless user.load
-								if not user.already_answered?(msg) and not msg.nil? then
-									screen        = Bot.nav.get(msg, user)
-									process_msg(user.id,screen[:text],screen) unless screen[:text].nil?
-								end
-								user.save
-								user = nil
-								msg = nil
+				if object=='page' then
+					entries     = params['entry']
+					entries.each do |entry|
+						entry.messaging.each do |messaging|
+							Bot.log.debug "#{messaging}"
+							msg 	 = Giskard::FB::Message.new(messaging)
+							user     = Giskard::FB::User.new(messaging.sender.id)
+							user.create unless user.load
+							if not user.already_answered?(msg) and not msg.nil? then
+								screen        = Bot.nav.get(msg, user)
+								process_msg(user.id,screen[:text],screen) unless screen[:text].nil?
 							end
-						end   
-					elsif object=='api' then # api call / not from messenger
-						cmd=params['cmd']
-						token=params['token']
-						uid=params['uid']
-						return if cmd.nil? or cmd.empty?
-						return if token.nil? or token.empty?
-						decoded_token=JWT.decode token, CC_SECRET_FB, true, {:algorithm=> 'HS256'}
-						data=decoded_token[0]
-						msg = Giskard::FB::Message.new(cmd)
-						user     = Giskard::FB::User.new(uid)
-						user.id  = data["email"].split('@')[0].to_i
-						screen = Bot.nav.get(msg, user)
-						process_msg(user.id,screen[:text],screen) unless screen[:text].nil?
-					end
-				rescue Exception=>e
-					Bot.log.fatal "#{e.message}\n#{e.backtrace.inspect}\n"
-				ensure
-					#Giskard::Db.close()
+							user.save
+							user = nil
+							msg = nil
+						end
+					end   
+				elsif object=='api' then # api call / not from messenger
+					cmd=params['cmd']
+					token=params['token']
+					uid=params['uid']
+					return if cmd.nil? or cmd.empty?
+					return if token.nil? or token.empty?
+					decoded_token=JWT.decode token, CC_SECRET_FB, true, {:algorithm=> 'HS256'}
+					data=decoded_token[0]
+					msg = Giskard::FB::Message.new(cmd)
+					user     = Giskard::FB::User.new(uid)
+					user.id  = data["email"].split('@')[0].to_i
+					screen = Bot.nav.get(msg, user)
+					process_msg(user.id,screen[:text],screen) unless screen[:text].nil?
 				end
 			end # post
 		end # class

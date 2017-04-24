@@ -20,32 +20,9 @@
 
 module Giskard
     module FB
-    	class Message < Giskard::Core::Message
-            attr_accessor :seq   # id in the database = id in Facebook
-            attr_accessor :postback
-
-	    def initialize(messaging)
-		    self.id   = nil
-		    self.seq  = nil
-		    self.messenger = FB_BOT_NAME
-		    self.timestamp = messaging.timestamp/1000
-		    if not messaging.message.nil? then
-			    self.id   = messaging.message.mid
-			    self.seq  = messaging.message.seq
-			    self.text = messaging.message.text
-		    elsif not messaging.postback.nil? then
-			    self.text = messaging.postback.payload
-			    self.postback  = Giskard::FB::Postback.new(messaging.postback)
-		    else
-			    self.id   = -1
-			    self.seq  = -1
-			    self.text = messaging
-		    end
-	    end
-
 	    class Postback
 		    attr_accessor :payload           # payload parameter that was defined with the button
-		    attr_accessor :referral          # Comes only with Get Started postback and if an optional ref param was passed from the entry point, such as m.me link
+		    attr_accessor :ref          # Comes only with Get Started postback and if an optional ref param was passed from the entry point, such as m.me link
 		    attr_accessor :source            # shortlink
 		    attr_accessor :type         	 # open thread
 
@@ -56,6 +33,30 @@ module Giskard
 			    @type      = postback.referral.nil? ? nil : postback.referral.type
 		    end
 	    end
+
+	    class Message < Giskard::Core::Message
+		    attr_accessor :seq   # id in the database = id in Facebook
+		    attr_accessor :postback
+
+		    def initialize(messaging)
+			    self.id   = nil
+			    self.seq  = nil
+			    self.messenger = FB_BOT_NAME
+			    self.timestamp = messaging.timestamp/1000
+			    if not messaging.message.nil? then
+				    self.id   = messaging.message.mid
+				    self.seq  = messaging.message.seq
+				    self.text = messaging.message.text
+			    elsif not messaging.postback.nil? then
+				    self.text = messaging.postback.payload
+				    self.postback  = Giskard::FB::Postback.new(messaging.postback)
+			    else
+				    self.id   = -1
+				    self.seq  = -1
+				    self.text = messaging
+			    end
+		    end
+
 	end # end class
     end # end module FB
 end # module Bot

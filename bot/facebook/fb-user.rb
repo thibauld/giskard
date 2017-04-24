@@ -52,7 +52,7 @@ module Giskard
 				@fb_id = res[0]['fb_id'].to_i
 				@first_name = res[0]['firstname']
 				@last_name = res[0]['lastname']
-				@profile = res[0]['profile']
+				@profile = JSON.parse(res[0]['profile']) unless res[0]['profile'].nil?
 				#@uid = res[0]['uid'].to_i
 				#@last_msg_time = DateTime.parse(res[0]['last_msg_time']).strftime('%s').to_i
 				@messenger = FB_BOT_NAME
@@ -64,15 +64,16 @@ module Giskard
 				@messenger = FB_BOT_NAME
 				# get info from facebook
 				begin
-					res = URI.parse("https://graph.facebook.com/v2.6/#{user.id}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=#{FB_PAGEACCTOKEN}").read
+					res = URI.parse("https://graph.facebook.com/v2.6/#{@id}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=#{FB_PAGEACCTOKEN}").read
 				rescue Exception=>e
-					Bot.log.error "Error retrieving user fb profile info: #{e}\n#{e.msg}"
+					Bot.log.error "Error retrieving user fb profile info: #{e}\n#{e.message}"
 				end
 				r_user           = JSON.parse(res)
 				r_user           = JSON.parse(JSON.dump(r_user), object_class: OpenStruct)
 				@first_name  = r_user.first_name
 				@last_name   = r_user.last_name
 				@sig 	     = Digest::SHA256.hexdigest(@id) if @id.to_i>0
+				@profile     = {}
 				#@last_msg_time = 1000000
 
 				# save in database
@@ -83,8 +84,9 @@ module Giskard
 
 			# save in the database the user with its fsm
 			def save(profile=nil)
-				@profile.merge!(profile) unless profile.nil?
-				Bot.db.query('update_user_profile',[@sig,@profile])
+				profile= profile.nil? ? @profile : profile
+				res=Bot.db.query('update_user_profile',[@sig,JSON.dump(profile)])
+				@profile=JSON.parse(res[0]['profile']) unless res.nil?
 				#super
 			end
 

@@ -418,7 +418,7 @@ END
 			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
 			return self.get_screen(screen,user,msg)
 		end
-		user.save('{"connait_JM":1}');
+		user.save({"connait_JM"=>1});
 		return self.get_screen(screen,user,msg)
 	end
 
@@ -428,67 +428,83 @@ END
 			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
 			return self.get_screen(screen,user,msg)
 		end
-		user.save('{"connait_JM":0}');
+		user.save({"connait_JM"=>0});
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_question_jm_yes_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.save('{"mieux_que_SM":1}');
+		user.save({"mieux_que_SM"=>1});
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_question_jm_no_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.save('{"mieux_que_SM":0}');
+		user.save({"mieux_que_SM"=>0});
+		return self.get_screen(screen,user,msg)
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ok_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.save('{"vote_OK":1}');
+		user.save({"vote_OK"=>1});
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ko_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.save('{"vote_OK":0}');
+		user.save({"vote_OK"=>0});
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ok_11_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.save('{"vote_OK":1,"vote_officiel":1}');
+		user.save({"vote_OK"=>0,"vote_officiel"=>1});
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ko_11_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.save('{"vote_OK":0,"vote_officiel":0}');
+		user.save({"vote_OK"=>0,"vote_officiel"=>0});
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ok_4_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.save('{"vote_non_officiel":1}');
+		user.save({"vote_non_officiel"=>1});
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_vote_ko_4_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.save('{"vote_non_officiel":0}');
+		user.save({"vote_non_officiel"=>0});
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_share_experiment_yes_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.save('{"share_experiment":1}');
+		user.save({"share_experiment"=>1});
+		patch={
+			:attachment=>{
+				"payload"=>{
+					"elements"=>[
+						{
+							"buttons"=>[{"url"=>"https://m.me/JugementMajoritairePresidentielle2017?ref=#{user.id}"}],
+							"default_action"=>{
+								"url"=>"https://m.me/JugementMajoritairePresidentielle2017?ref=#{user.id}"
+							}
+						}
+					]
+				}
+			}
+		}
+		custom_screen=Bot.mergeHash(screen,patch)
 		return self.get_screen(screen,user,msg)
 	end
 
 	def home_share_experiment_no_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.save('{"share_experiment":0}');
+		user.save({"share_experiment"=>0});
 		return self.get_screen(screen,user,msg)
 	end
 
@@ -567,23 +583,10 @@ END
 
 	def home_welcome_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.set('rates',{})
-		return self.get_screen(screen,user,msg)
-	end
-
-	def home_rate_candidate_cb(msg,user,screen)
-		Bot.log.debug "#{__method__}"
-		user.set('rated_candidate',screen[:id].split('/')[1])
-		return self.get_screen(screen,user,msg)
-	end
-
-	def home_save_rating_cb(msg,user,screen)
-		Bot.log.debug "#{__method__}"
-		candidate=user.get('rated_candidate')
-		rates=user.get('rates').nil? ? {} : user.get('rates')
-		user.set('rates',rates.merge({candidate=>screen[:id]}))
-		user.unset('rated_candidate')
-		Bot.log.debug user.get('rates')
+		if (!msg.postback.nil? && !msg.postback.ref.nil?) then
+			Bot.log.debug "ref = #{msg.postback.ref}"
+			user.save({"referral"=>"#{msg.postback.ref}"});
+		end
 		return self.get_screen(screen,user,msg)
 	end
 
