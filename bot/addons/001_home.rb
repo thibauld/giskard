@@ -482,6 +482,21 @@ END
 
 	def home_share_experiment_yes_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
+		patch={
+			:attachment=>{
+				"payload"=>{
+					"elements"=>[
+						{
+							"buttons"=>[{"url"=>"https://m.me/JugementMajoritairePresidentielle2017?ref=#{user.id}"}],
+							"default_action"=>{
+								"url"=>"https://m.me/JugementMajoritairePresidentielle2017?ref=#{user.id}"
+							}
+						}
+					]
+				}
+			}
+		}
+		custom_screen=Bot.mergeHash(screen,patch)
 		@users.update_profile(user.sig,'{"share_experiment":1}');
 		return self.get_screen(screen,user,msg)
 	end
@@ -528,7 +543,6 @@ END
 		return self.get_screen(custom_screen,user,msg)
 	end
 
-
 	def home_non_official_candidates_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
 		if VOTE_PAUSED then
@@ -567,23 +581,9 @@ END
 
 	def home_welcome_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
-		user.set('rates',{})
-		return self.get_screen(screen,user,msg)
-	end
-
-	def home_rate_candidate_cb(msg,user,screen)
-		Bot.log.debug "#{__method__}"
-		user.set('rated_candidate',screen[:id].split('/')[1])
-		return self.get_screen(screen,user,msg)
-	end
-
-	def home_save_rating_cb(msg,user,screen)
-		Bot.log.debug "#{__method__}"
-		candidate=user.get('rated_candidate')
-		rates=user.get('rates').nil? ? {} : user.get('rates')
-		user.set('rates',rates.merge({candidate=>screen[:id]}))
-		user.unset('rated_candidate')
-		Bot.log.debug user.get('rates')
+		if (!msg.ref.nil?) then
+			@users.update_profile(user.sig,'{"referral":"'+msg.ref+'"}');
+		end
 		return self.get_screen(screen,user,msg)
 	end
 

@@ -26,6 +26,7 @@ module Giskard
 			attr_accessor :id_user           # id of the sender
 			attr_accessor :user              # class User for the sender
 			attr_accessor :bot               # name of the bot
+			attr_accessor :ref               # referral
 
 			def initialize(id_message, text, seq, bot)
 				@id         = id_message

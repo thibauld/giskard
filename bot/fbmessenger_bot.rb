@@ -168,6 +168,7 @@ module Giskard
 								msg = Giskard::FB::Message.new(id, messaging.message.text, seq, FB_BOT_NAME)
 							elsif not postback.nil? then
 								msg = Giskard::FB::Message.new(id, postback.payload, seq, FB_BOT_NAME)
+								msg.ref=postback.referral.ref unless postback.referral.nil?
 							end
 							user     = Bot::User.new()
 							user.id  = id_sender
