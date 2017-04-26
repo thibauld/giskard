@@ -310,6 +310,7 @@ END
 				},
 				:done_button=>{
 					:answer=>"home/done_button_answer",
+					:callback=>"home/done_button_cb",
 					:jump_to=>"home/share_laprimaire"
 				},
 				:share_laprimaire=>{
@@ -324,13 +325,13 @@ END
 									"subtitle"=>"Choisissez vos candidats pour les législatives.",
 									"default_action"=> {
 										"type"=> "web_url",
-										"url"=>"https://legislatives.laprimaire.org"
+										"url"=>"https://laprimaire.org/?utm_source=facebook&utm_medium=bot&utm_campaign=experiment-jm-2017"
 									},
 									"buttons"=>[
 										{
 											"type"=>"web_url",
 											"title"=>"En savoir plus",
-											"url"=>"https://legislatives.laprimaire.org"
+											"url"=>"https://laprimaire.org/?utm_source=facebook&utm_medium=bot&utm_campaign=experiment-jm-2017"
 										},
 										{
 											"type"=>"element_share"
@@ -415,6 +416,12 @@ END
 	def home_share_experiment_no_cb(msg,user,screen)
 		Bot.log.debug "#{__method__}"
 		@users.update_profile(user.sig,'{"share_experiment_2":0}');
+		return self.get_screen(screen,user,msg)
+	end
+
+	def home_done_button_cb(msg,user,screen)
+		Bot.log.debug "#{__method__}"
+		@users.update_profile(user.sig,'{"ad_laprimaire_2":1}');
 		return self.get_screen(screen,user,msg)
 	end
 
