@@ -410,7 +410,7 @@ END
 		}
 		custom_screen=Bot.mergeHash(screen,patch)
 		@users.update_profile(user.sig,'{"share_experiment_2":1}');
-		return self.get_screen(screen,user,msg)
+		return self.get_screen(custom_screen,user,msg)
 	end
 
 	def home_share_experiment_no_cb(msg,user,screen)
