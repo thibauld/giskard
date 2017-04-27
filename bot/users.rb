@@ -26,6 +26,7 @@ module Bot
 				'find_user_by_id'=>'SELECT * FROM fb_users WHERE id=$1',
 				'insert_user'=>'INSERT INTO fb_users (id,firstname,lastname,fb_id) VALUES ($1,$2,$3,$4) RETURNING *',
 				'update_user_profile'=>'UPDATE fb_users SET profile=profile || $2::jsonb WHERE id=$1 RETURNING *',
+				'update_user_profile_and_last_updated'=>'UPDATE fb_users SET profile=profile || $2::jsonb, updated_at=now() WHERE id=$1 RETURNING *',
 				'count_users'=>'SELECT COUNT(*) FROM fb_users'
 			}
 			queries.each { |k,v| Bot::Db.prepare(k,v) }
@@ -91,8 +92,12 @@ module Bot
 			return res.num_tuples==0 ? nil : res[0]
 		end
 
-		def update_profile(sig,profile)
-			res=Bot::Db.query('update_user_profile',[sig,profile])
+		def update_profile(sig,profile,update_last_updated=false)
+			if update_last_updated then
+				res=Bot::Db.query('update_user_profile_and_last_updated',[sig,profile])
+			else
+				res=Bot::Db.query('update_user_profile',[sig,profile])
+			end
 			return res.num_tuples==0 ? nil : res[0]
 		end
 	end

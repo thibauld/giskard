@@ -105,10 +105,10 @@ END
 					:jm_no_answer=>"Non, dites m'en plus",
 					:jm_no=><<-END,
 Avec grand plaisir !
-Le jugement majoritaire est un système de vote inventé par 2 chercheurs français pour permettre aux électeurs de mieux exprimer leurs opinions.
-D'une part les électeurs s'expriment sur *tous* les candidats (au lieu d'en choisir un(e) seul(e)).
+Le jugement majoritaire est un système de vote inventé pour permettre aux électeurs de mieux exprimer leurs opinions.
+D'une part les électeurs s'expriment sur tous les candidats au lieu d'en choisir un(e) seul(e).
 D'autre part, le vote se fait en évaluant chaque candidat avec une mention allant de "Très bien" à "A rejeter".
-Pour plus d'informations sur le jugement majoritaire, n'hésitez pas à consulter la page https://www.jugementmajoritaire2017.com
+Pour plus d'infos sur le jugement majoritaire, rendez-vous sur https://www.jugementmajoritaire2017.com
 END
 					:understood_answer=>"Ok bien compris",
 					:understood=><<-END,
@@ -352,7 +352,7 @@ END
 			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
 			return self.get_screen(screen,user,msg)
 		end
-		@users.update_profile(user.sig,'{"connait_JM_2":1}');
+		@users.update_profile(user.sig,'{"connait_JM_2":1}',true);
 		return self.get_screen(screen,user,msg)
 	end
 
@@ -362,7 +362,7 @@ END
 			screen=self.find_by_name("home/vote_paused",self.get_locale(user))
 			return self.get_screen(screen,user,msg)
 		end
-		@users.update_profile(user.sig,'{"connait_JM_2":0}');
+		@users.update_profile(user.sig,'{"connait_JM_2":0}',true);
 		return self.get_screen(screen,user,msg)
 	end
 
