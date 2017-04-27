@@ -94,7 +94,6 @@ END
 Bonjour #{Bot.emoticons[:smile]}
 Merci de votre participation à cette seconde expérimentation scientifique dans le cadre de l'élection présidentielle.
 Les résultats de la première expérimentation seront rendus publics juste après l'élection présidentielle.
-Sachez que votre vote est anonyme et que vos données personnelles ne sont pas enregistrées.
 A tout instant, vous pouvez réinitialiser notre conversation en m'écrivant "/start" (sans les guillemets).
 Question préalable avant de passer au vote : connaissez-vous le jugement majoritaire ?
 END
@@ -106,17 +105,16 @@ END
 					:jm_no_answer=>"Non, dites m'en plus",
 					:jm_no=><<-END,
 Avec grand plaisir !
-Le jugement majoritaire est un système de vote inventé par 2 chercheurs français dans le but de permettre aux électeurs de mieux exprimer leurs opinions.
-D'une part les électeurs sont invités à s'exprimer sur *tous* les candidats (au lieu d'en choisir un(e) seul(e)).
+Le jugement majoritaire est un système de vote inventé par 2 chercheurs français pour permettre aux électeurs de mieux exprimer leurs opinions.
+D'une part les électeurs s'expriment sur *tous* les candidats (au lieu d'en choisir un(e) seul(e)).
 D'autre part, le vote se fait en évaluant chaque candidat avec une mention allant de "Très bien" à "A rejeter".
 Pour plus d'informations sur le jugement majoritaire, n'hésitez pas à consulter la page https://www.jugementmajoritaire2017.com
-Cliquez sur le bouton "Ok bien compris" ci-dessous lorsque vous êtes prêt à continuer.
 END
 					:understood_answer=>"Ok bien compris",
 					:understood=><<-END,
 Ok, à présent passons au vote !
-Pour des raisons de confidentialité, le vote ne se fait pas sur Facebook mais sur une page sécurisée.
-Vos votes sont anonymes : Ni Facebook, ni nous n'avons la possibilité de connaître votre vote.
+Pour des raisons de confidentialité, le vote se fait hors de Facebook sur une page sécurisée.
+Sachez que votre vote est anonyme et que vos données personnelles ne sont pas enregistrées.
 END
 					:official_candidates=><<-END,
 Voici les 2 candidats officiels au second tour de l'élection présidentielle :
