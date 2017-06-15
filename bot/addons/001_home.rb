@@ -26,61 +26,61 @@ module Home
 					:vote_paused=>"Désolé le vote est temporairement suspendu. Reessayez dans quelques minutes, merci de votre compréhension !",
 					:welcome_answer=>"/start",
 					:welcome=><<-END,
-Hello !
-My name is Giskard, I am an intelligent bot.. or at least as intelligent as you make me #{Bot.emoticons[:smile]}
-This is an example program for you to get acustomed to how I work.
-But enough talking, let's begin !
+Hi #{Bot.emoticons[:smile]}
+Thanks for participating to this experiment.
+First off, quick question : Do you know what Majority Judgement is ?
 END
 					:jm_yes_answer=>"Yes I do",
 					:jm_yes=><<-END,
 Great ! Let's proceed directly to the vote then.
 END
-					:jm_no_answer=>"No, please tell me more",
+					:jm_no_answer=>"No, tell me more",
 					:jm_no=><<-END,
 Sure thing !
-The majority judgement is [blabla...]
+The majority judgement is a novel and advanced way of casting your vote where you evaluate each one of the candidates by giving them a mention ranging from "Very good" to "To be rejected"
 END
-					:understood_answer=>"Ok bien compris",
+					:understood_answer=>"Ok understood",
 					:understood=><<-END,
-Top #{Bot.emoticons[:thumbs_up]}
-Passons au vote alors !
+Great #{Bot.emoticons[:thumbs_up]}
+Now let's vote !
 END
 					:official_candidates=><<-END,
-Voici le 1er vote concernant les 11 candidat(e)s officiel(le)s à l'élection présidentielle :
+Here are the 2 offical candidates of the presidential election run-off :
 attachment:
+Once you casted your vote, please click on "Continue"
 END
 					:non_official_candidates=><<-END,
 Passons à présent au 2nd vote concernant 4 candidat(e)s finalistes de leur primaire respective mais non-qualifiés :
 attachment:
 END
-					:vote_completed_answer=>"Continuer",
-					:vote_completed=>"Le vote s'est-il correctement déroulé ?",
-					:vote_ok_answer=>"Oui",
-					:vote_ok=>"Content de voir que tout s'est bien passé !\n",
-					:vote_ko_answer=>"Non j'ai eu un souci",
-					:vote_ko=>"Désolé que le vote ne se soit pas bien passé, pouvez-vous nous contacter pour nous dire ce qu'il s'est passé ?\n",
-					:question_jm=>"Est-ce que c'était facile de voter ?",
-					:question_jm_yes_answer=>"Facile",
-					:question_jm_yes=>"Très bonne nouvelle, cette expérimentation est désormais terminée, merci beaucoup pour votre participation.\nN'hésitez pas à partager cette expérimentation à vos amis pour leur faire découvrir le jugement majoritaire.\nEnfin, pour utiliser le jugement majoritaire dans la vraie vie, sachez que LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.",
-					:question_jm_no_answer=>"Difficile",
-					:question_jm_no=>"Merci pour votre opinion, cette expérimentation est désormais terminée, merci beaucoup pour votre participation !\nN'hésitez pas à partager cette expérimentation à vos amis pour leur faire découvrir le jugement majoritaire.\nEnfin, pour utiliser le jugement majoritaire dans la vraie vie, sachez que LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.",
+					:vote_completed_answer=>"Continue",
+					:vote_completed=>"Did the voting procedure go smoothly ?\n",
+					:vote_ok_answer=>"Yes",
+					:vote_ok=>"Glad to see everything went well !\n",
+					:vote_ko_answer=>"No I had an issue",
+					:vote_ko=>"Sorry you ran into an issue, can you contact us to let us know what happened ?\n",
+					:question_jm=>"Was casting your vote with the Majority Judgement let us express your opinion better or worse than the official system ?",
+					:question_jm_yes_answer=>"Better",
+					:question_jm_yes=>"Very good news, this experiment is now over, thanks a lot for participating!\n",
+					:question_jm_no_answer=>"Worse",
+					:question_jm_no=>"Thanks for your opinion!\nThis experiment is now over, thanks for participating!\n",
 					:question_share_experiment=><<-END,
-Seriez-vous d'accord pour nous aider en partageant cette expérimentation à quelques uns de vos proches et amis de votre choix ? 
+Would you agree to help us by sharing this experiment to some of your friends and family ?
 END
-					:question_share_experiment_no_answer=>"Non merci",
+					:question_share_experiment_no_answer=>"No thanks",
 					:question_share_experiment_no=><<-END,
-Dommage #{Bot.emoticons['disappointed']}
+Too bad #{Bot.emoticons['disappointed']}
 END
-					:question_share_experiment_yes_answer=>"Avec plaisir",
+					:question_share_experiment_yes_answer=>"Of course!",
 					:question_share_experiment_yes=><<-END,
-Merci beaucoup ! Voici un petit texte prêt à partager :
+Thanks a lot! Here is a little message ready to share :
 attachment:
-Cliquez sur "Partager" pour choisir les amis à qui vous souhaitez partager cette expérience. Cliquez sur "C'est fait !" une fois terminé.
+Click on "Share" to choose the friends to whom you'd like to share this experiment. Click on "Done" once you're done
 END
-					:done_button_answer=>"C'est fait !",
-					:done_button=>"Merci énormément pour votre coup de pouce #{Bot.emoticons['smile']}\n",
+					:done_button_answer=>"Done",
+					:done_button=>"Thank you for your help #{Bot.emoticons['smile']}\n",
 					:share_laprimaire=><<-END,
-Pour finir, sachez que, si vous voulez utiliser le jugement majoritaire, LaPrimaire.org l'utilise dans le cadre des primaires ouvertes qu'ils organisent.
+Finally, know that, if you want to use Majority Judgement in real life, LaPrimaire.org uses it to organize their open primaries:
 attachment:
 END
 				}
@@ -204,22 +204,22 @@ END
 									"subtitle"=>"Cliquez sur 'Je vote' pour évaluer pour les 2 candidats au Jugement Majoritaire.",
 									"default_action"=> {
 										"type"=>"web_url",
-										"url"=>"https://laprimaire.org/citoyen/vote/facebook_2",
+										#"url"=>"https://laprimaire.org/citoyen/vote/facebook_2",
 										#"url"=>"http://localhost:9293/citoyen/vote/facebook_2",
-										#"url"=>"https://laprimaire.org/citoyen/vote/facebook_11?token=a&test=1",
+										"url"=>"https://laprimaire.org/citoyen/vote/facebook_11?token=a&test=1",
 										"messenger_extensions"=> true,
 										"webview_height_ratio"=> "full",
-										"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_2"
+										#"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_2"
 										#"fallback_url"=>"http://localhost:9293/citoyen/vote/facebook_2"
-										#"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_11?token=a&test=1",
+										"fallback_url"=>"https://laprimaire.org/citoyen/vote/facebook_11?token=a&test=1",
 									},
 									"buttons"=>[
 										{
 											"type"=>"web_url",
 											"title"=>"Je vote !",
-											"url"=>"https://laprimaire.org/citoyen/vote/facebook_2",
+											#"url"=>"https://laprimaire.org/citoyen/vote/facebook_2",
 											#"url"=>"http://localhost:9293/citoyen/vote/facebook_2",
-											#"url"=>"https://laprimaire.org/citoyen/vote/facebook_11?token=a&test=1",
+											"url"=>"https://laprimaire.org/citoyen/vote/facebook_11?token=a&test=1",
 											"webview_height_ratio"=>"full",
 											"webview_share_button"=>"hide"
 										}
@@ -445,10 +445,10 @@ END
 				"payload"=>{
 					"elements"=>[
 						{
-							"buttons"=>[{"url"=>vote_url_2+"?token=#{vote_token_2}"}],
+							"buttons"=>[{"url"=>vote_url_2+"?token=#{vote_token_2}&test=2"}],
 							"default_action"=>{
-								"url"=>vote_url_2+"?token=#{vote_token_2}",
-								"fallback_url"=>vote_url_2+"?token=#{vote_token_2}"
+								"url"=>vote_url_2+"?token=#{vote_token_2}&test=2",
+								"fallback_url"=>vote_url_2+"?token=#{vote_token_2}&test=2"
 							}
 						}
 					]
