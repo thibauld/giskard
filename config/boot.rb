@@ -13,6 +13,5 @@ require 'telegram/bot' if TELEGRAM
 require 'logger'
 require 'ostruct' if FBMESSENGER
 require 'rest_client' if FBMESSENGER
-require 'deep_clone'
 require 'digest'
 require 'pg'
